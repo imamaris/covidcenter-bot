@@ -4,9 +4,9 @@ const fetch = require('node-fetch');
 // ------------------------------------------------------------
 // Config
 
-const NEW_ACCESS_TOKEN = ''; // TODO: fill this in
+const NEW_ACCESS_TOKEN = '' // TODO: fill this in
 const FIREBASE_CONFIG = {}; // TODO: fill this in
-const APP_ID = '' // TODO: fill this in
+const APP_ID = ''; // TODO: fill this in
 
 // ------------------------------------------------------------
 // Wit API Calls
@@ -22,8 +22,9 @@ function queryWit(text, n = 1) {
   ).then(res => res.json());
 }
 
-function validateSamples(samples) {
-  return fetch(`https://api.wit.ai/samples?v=${APP_ID}`, {
+function validateUtterances(samples) {
+  console.log(JSON.stringify(samples))
+  return fetch(`https://api.wit.ai/utterances?v=${APP_ID}`, {
       method: 'POST',
       headers: {
         Authorization: `Bearer ${NEW_ACCESS_TOKEN}`,
@@ -36,9 +37,7 @@ function validateSamples(samples) {
 
 module.exports = {
   queryWit,
-  validateSamples,
-  interactive,
-  firstEntity,
+  validateUtterances,
   NEW_ACCESS_TOKEN,
   FIREBASE_CONFIG,
-};
+}

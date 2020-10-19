@@ -1,23 +1,27 @@
 const fs = require('fs');
 const fetch = require('node-fetch');
-const {validateSamples} = require('../shared');
+const { validateUtterances } = require('../shared')
 
 const DOUBLETAB = '   ';
-const fileName = 'initial-data/sentiment.tsv'
+const fileName = 'init-data/sentiment.tsv'
+const intentName = 'sentiment_intent'
 const data = fs
   .readFileSync(fileName, 'utf-8')
-  .split('\r')
+  .split('\n')
   .map((row) => row.split(DOUBLETAB))
 
 const samples = data.map(([text, trait, value]) => {
   return {
-    text,
-    entities: [{
-      entity: trait,
-      value,
-    }, ],
-  };
+    text: text,
+    intent: intentName,
+    entities: [],
+    traits: [
+      {
+        trait: trait,
+        value: value,
+      },
+    ],
+  }
 });
 
-validateSamples(samples)
-  .then(res => console.log(res));
+validateUtterances(samples).then((res) => console.log(res))
