@@ -1,0 +1,25 @@
+{
+  "name": "covidcenter-bot",
+  "version": "1.0.0",
+  "description": "In this tutorial, we will be creating an API-based bot that give information covid to your account. The app will be able to process the user's text and respond to the user data about covid that they want. The key things we will explore is how to:",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/imamaris/covidcenter-bot.git"
+  },
+  "dependencies": {
+    "node-fetch": "^1.6.3"
+  },
+  "author": "gazandic@gmail.com",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/imamaris/covidcenter-bot/issues"
+  },
+  "engines": {
+    "node": ">=7.5.0"
+  },
+  "homepage": "https://github.com/imamaris/covidcenter-bot#readme"
+}
