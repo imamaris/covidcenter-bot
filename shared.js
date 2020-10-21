@@ -35,9 +35,24 @@ function validateUtterances(samples) {
     .then(res => res.json())
 }
 
+function queryGraph(json, access_token) {
+  return fetch(
+    `https://graph.facebook.com/v8.0/me/messages?access_token=${access_token}`,
+    {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${NEW_ACCESS_TOKEN}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(json),
+    }
+  ).then((res) => res.json())
+}
+
 module.exports = {
   queryWit,
   validateUtterances,
+  queryGraph,
   NEW_ACCESS_TOKEN,
   FIREBASE_CONFIG,
 }
