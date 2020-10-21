@@ -5,6 +5,11 @@ const express = require('express'),
   bodyParser = require('body-parser'),
   app = express().use(bodyParser.json()) // creates express http server
 
+const { queryGraph } = require('../shared')
+
+const ACCESS_TOKEN =
+  ''
+
 // Sets server port and logs message on success
 app.listen(process.env.PORT || 1337, () => console.log('webhook is listening'))
 
@@ -20,8 +25,23 @@ app.post('/webhook', (req, res) => {
 
       // Gets the message. entry.messaging is an array, but 
       // will only ever contain one message, so we get index 0
+      if (entry.messaging.length == 0) {
+        return
+      }
+
       let webhook_event = entry.messaging[0];
-      console.log(webhook_event);
+      let message = webhook_event.message;
+      if (message != null && message.nlp != null) {
+        var messageReply = {
+          recipient: {
+            id: webhook_event.sender.id,
+          },
+          message: {
+            text: getSentimentResponse(message.nlp.traits.sentiment),
+          },
+        }
+        queryGraph(messageReply, ACCESS_TOKEN)
+      }
     });
 
     // Returns a '200 OK' response to all requests
@@ -33,11 +53,25 @@ app.post('/webhook', (req, res) => {
 
 });
 
+function getSentimentResponse(sentiment) {
+  if (sentiment === undefined ) {
+    return 'Ada yang Coce bisa bantu ?'
+  }
+
+  console.log(sentiment[0].value);
+  if (sentiment[0].value === 'positif') {
+    return 'Mantap, kalau kamu merasa baik !! tetap social distancing yaaa :D '
+  }
+
+  return 'Semangat :( Aku tahu ini berat, tapi tetap social distancing yaa, demi kebaikan bersama sayangku <3 '
+}
+
 // Adds support for GET requests to our webhook
 app.get('/webhook', (req, res) => {
 
   // Your verify token. Should be a random string.
-  let VERIFY_TOKEN = "<YOUR_VERIFY_TOKEN>"
+  let VERIFY_TOKEN =
+    ''
     
   // Parse the query params
   let mode = req.query['hub.mode'];
