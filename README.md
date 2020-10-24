@@ -1,16 +1,19 @@
 ## Overview
 
+Figure to explain the result of this tutorial.
+
 In this tutorial, we will be creating an API-based bot that give information covid to your account. The app will be able to process the user's text and respond to the user data about covid that they want. The key things we will explore is how to:
 
-*   Design the user interaction
+*   Design the user interaction and Architecture
 *   Create and train a Wit app to do natural language processing (NLP)
-*   Integrate Wit with your Android app
+*   Integrate Wit with your Messenger Bot
 
 ## Prerequisites
 
 *   Create a [Wit.ai](https://wit.ai/) account
-*   Download the [Wit.ai Covid Center Demo base-setup](https://github.com/imamaris/covidcenter-bot/tree/base-setup) branch from GitHub
-*   Have an whatsapp API bot key from [Link](https://to-be-announced-link)
+*   Clone this repository [Wit.ai Covid Center Demo](https://github.com/imamaris/covidcenter-bot) from GitHub
+*   Create Facebook App with Messenger [Link](https://to-be-announced-link)
+*   Install Ngrok [Link](https://ngrok.com/download) 
 
 ## Design the User Interaction
 
@@ -40,6 +43,10 @@ A Hospital
 B Drive Thru Check
 XYZ Hospital
 "
+
+User : "Sad"
+
+Wit : "I know this is hard, cheer up! maybe we soon could meet with our friends, please don't be discouraged"
 ```
 
 Now let's think about scenarios were the user can deviate:
@@ -59,7 +66,7 @@ Wit:  "Where is your domicile ?"
 
 User: "South Jakarta" / (send a location)
 
-Wit: "Today, we have 500 new cases. 100 recovered, 0 died. Please stay at home and please get your test if you have followings indication:
+Wit: "Today, we have 0 new cases. 100 recovered, 0 died. Please stay at home and please get your test if you have followings indication:
 1. Can't smell and taste
 2. Out of breathe
 3. etc
@@ -72,45 +79,74 @@ B Drive Thru Check
 XYZ Hospital
 " 
 
+User : "Nice"
+
+Wit : "Congratulation!! please don't be lulled by this achievement. Stay distancing, stay healthy"
 ```
 
 There are many other scenarios to consider as well, but for the tutorial let's just focus on these.
 
-## Add an introduction to your bot
+## Understan Terms in Wit app to do natural language processing (NLP)
 
-Open the [Wit.ai Covid Center demo base-setup](https://github.com/imamaris/covidcenter-bot/tree/base-setup)) int and run
+Before we train our Wit app, we should learn about intent, entities, traits, and utterances.
+If you already learn those terms, you can go to [Next section](https://tbd)
 
-Next update `greetText` function to include the introduction announcement as follows:
+Case Study:
+We want to understand what our end-user wants to perform. For example:
 
-```js
-import {
-  graphql,
-  GraphQLSchema,
-  GraphQLObjectType,
-  GraphQLString,
-} from 'graphql';
+- Ask about the weather
+- Book a restaurant
+- Open the garage door
 
-var schema = new GraphQLSchema({
-  query: new GraphQLObjectType({
-    name: 'RootQueryType',
-    fields: {
-      hello: {
-        type: GraphQLString,
-        resolve() {
-          return 'hello world';
-        },
-      },
-    },
-  }),
-});
+The problem is that there a millions of different ways to express a given intent. For instance, all the following expressions should be mapped to the same intent:
 
-}
-```
- 
+"What is the weather in Paris?"
+"Give me tomorrow weather in Paris."
+"Is it sunny or rainy in Paris now?"
+
+Those expressions are asking about the weather intent. How about entities ? 
+Entities is object that referred in the intent of sentence.
+
+"What is the weather in **Paris** ?"
+Paris is **city** where we ask about the weather for.
+
+"Give me **tomorrow** weather in **Paris**."
+Tomorrow is **time** when we ask about the weather for.
+
+"Is it **sunny** or **rainy** in **Paris** **now**?"
+And **sunny** and **rainy** are options what we ask about he weather.
+
+The entities make machine understand what object that related with the intent.
+example: "Give me **tomorrow** weather in **Paris**."
+
+Intent: Ask about the weather , Entities: City: Paris Time: Tomorrow
+Machine could query to the database in table weather(intent) with paris city and tomorrow queries (entities)
+
+So what is trait ?
+Trait is tendency of an intent.
+We could give an example of this like sentiment on reaction_intent.
+
+"Sad" (negative)
+"OMG :(" (negative)
+"I can't believe this. I'm crying" (negative)
+"Superb" (positive)
+
+Utterances is sample data which define a sentence to be categorized to an intent and have entities and traits.
+This term will be used to train data, for example: 
+
+<<insert picture here>>
+
+Now that we are understand, let’s train our Wit app to process the user’s response to the app.
+
 ## Training your Wit app to do natural language processing (NLP)
 
-Now that the Android app can res the introduction, let’s train our Wit app to process the user’s response to the app.
+Wit AI has two method for training the NLP.
+The first is inserting utterances with web interface.
+The second one is inserting utterances with API.
 
+### Wit AI Web Interface
+
+TO DO: Change this section
 1. Go to [Wit.ai](https://wit.ai/).
 2. Create a new Wit.ai app:
     1. Enter a name e.g. _VoiceDemo_
@@ -141,48 +177,93 @@ Here are some variations that can be added as training utterances:
 
 For more information on this, see the [Quick Start](https://wit.ai/docs/quickstart) guide.
 
+### Wit AI API
 
-### Extend entities with inclusive and diverse data
+Open the [Wit.ai Covid Center init data script](https://github.com/imamaris/covidcenter-bot/tree/init-data))
 
-A machine learning model is the product of the data it trains on, so when providing sample utterances make sure to provide a diverse array that is inclusive.
+Update the `sentiment.tsv` and add
+```tsv
+Alhamdulillah    sentiment   positif
+Kabar buruk   sentiment   negatif
+Tidak menyenangkan   sentiment   negatif
+Sedih akutu   sentiment   negatif
+Huhuhuhu   sentiment   negatif
+```
 
-So far, besides my name — `B` — we've only provided euro-centric names for training the model. If there isn't diversity in the names, my name might not be recognized as a name and might be interpreted as a pan that you fry things on.
 
-For example, here are some utterances with more diverse names that we can add:
+Get Your Seed Token
 
-*   Yeah
-*   No
-*   Ok
-*   Alright
-*   Nope
+![overview](/examples/seed_token.png)
 
-## Integrate Wit with your Bot
+In order to start using the Wit.ai API, we need to start with some identification. Make sure you have signed up for [Wit.ai](https://wit.ai) if you haven't already.
 
-When you download the Android Wit.ai Voice Demo from the [base setup branch](https://github.com/imamaris/covidcenter-bot/tree/base-setup), the app will be capable of doing text to speech. In this part, we will enable voice processing capabilities by streaming the user’s voice audio (or utterance) to the [Wit Speech API](https://wit.ai/docs/http/20200513#post__speech_link) via HTTP. For this tutorial, we will use [OkHttp](https://square.github.io/okhttp/) as the HTTP client for making requests.
+Once you have:
 
-### Initialize the HTTP client to communicate with Wit Speech API endpoint
+1. Go to the `Settings` page of the [Wit console](https://wit.ai/home)
+2. Copy the `Server Access Token`
 
-Open .... and make the following updates:
+This will be the base token we will use to create other apps. In the code this will be under the variable `NEW_ACCESS_TOKEN`.
+
+Next update `NEW_ACCESS_TOKEN` and `APP_ID` in ../shared.js variable to run the  as follows:
+```js
+const NEW_ACCESS_TOKEN = '' // TODO: fill this in 
+const APP_ID = ''; // TODO: fill this in
+```
+
+Run the file with:
+```sh
+  node init-data/index.js
+```
+
+### Test your Wit.AI App with API
+
+TO DO: Change this section
+
+## Integrate Wit with your Messenger Bot
+
+When you download the Tutorial from the [base setup branch](https://github.com/imamaris/covidcenter-bot/tree/base-setup), the app will be capable of doing text and answer with sentiment intent. In this part, we will add how retrieve covid 
+
+### Add an webhook to your Messenger bot
+
+Open the [Wit.ai Covid Center bot demo](https://github.com/imamaris/covidcenter-bot/tree/bot/index.js)) int and run
+
+Next update `API_TOKEN` and `VERIFY_TOKEN` variable to get webhook as follows:
+
+```js
+
+const ACCESS_TOKEN = '' // line 11
+let VERIFY_TOKEN = '' // line 74
+
+```
+
+### Deploy your webhook
+
+Run ngrok:
+
+```sh
+ngrok http 80
+```
+
+### Set your webhook and NLP
+
+```js
+```
+
+### Test your chatbot
+
+
+```js
+```
+
+### Train covid_intent the Wit API
+
+When the `StreamRecordingRunnable` is finished recording and streaming the voice data, Wit will return the resolved intents and entities in the response. We will need to extract that information from the JSON and respond to the user appropriately.
 
 ```js
 
 ```
 
-### Capture and stream the user's voice response to Wit for processing
-
-With a configured HTTP client, let's add the package `FSM` to manage state user response and have it streamed to the Wit API for processing.
-
-```js
-```
-
-### Wireup `ask location` to start fetching related data
-
-With a configured HTTP client, let's add the `location` module to get related data from location and have it streamed to the Wit API for processing.
-
-```js
-```
-
-### Respond to the user based on the Wit results from Speech API
+### Train covid_intent the Wit API
 
 When the `StreamRecordingRunnable` is finished recording and streaming the voice data, Wit will return the resolved intents and entities in the response. We will need to extract that information from the JSON and respond to the user appropriately.
 
