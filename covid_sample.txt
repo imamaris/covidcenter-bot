@@ -1,0 +1,10 @@
+function intents
+if entities.value=='covid'
+   return 'Jumlah covid saat ini 500 kasus, 100 konfirmasi, 50 meninggal'
+else
+   return 'Maaf cocid tidak mengerti, apakah anda ingin mengetahui berita covid terbaru di kota kamu?'
+
+if utterance.value === 'yes'
+   return 'Berita terbaru hari ini kabar baik buat kita nih :D ditemukannya vaksin covid yang akan membantu penyembuhan di Indonesia"
+else
+   return 'Yah, sayang sekali cocid kira kamu ingin mengetahui berita terbaru :('
