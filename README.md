@@ -172,7 +172,9 @@ For more information on this, see the [Quick Start](https://wit.ai/docs/quicksta
 
 ### Wit AI API
 
-Open the [Wit.ai Covid Center init data script](https://github.com/imamaris/covidcenter-bot/tree/init-data)
+Before we implement, we should read [Wit.AI API Documentation](https://wit.ai/docs/http/20200513/) first.
+
+After we understand the API, open the [Wit.ai Covid Center init data script](https://github.com/imamaris/covidcenter-bot/tree/init-data)
 
 Update the `sentiment.tsv` and add
 ```tsv
@@ -202,6 +204,52 @@ const NEW_ACCESS_TOKEN = '' // TODO: fill this in
 const APP_ID = ''; // TODO: fill this in
 ```
 
+The script is reading data from tsv and hit [Utterances API](https://wit.ai/docs/http/20200513/#post__utterances_link).
+In this script, we use doubletab to enable data with tab and node fetch to hit api.
+We could change utterances constractor and the map for another needs if we want to train another data.
+
+```js
+// read data with `\n` splitting
+const data = fs
+  .readFileSync(fileName, 'utf-8')
+  .split('\n')
+  .map((row) => row.split(DOUBLETAB))
+
+// mapping 3 column into construct function
+const samples = data.map(([text, trait, value]) => {
+  // utterances constractor
+  return {
+    text: text,
+    intent: intentName,
+    entities: [],
+    traits: [
+      {
+        trait: trait,
+        value: value,
+      },
+    ],
+  }
+});
+
+// hit and log the response
+validateUtterances(samples).then((res) => console.log(res))
+
+// hit utterances API https://wit.ai/docs/http/20200513/#post__utterances_link
+function validateUtterances(samples) {
+  console.log(JSON.stringify(samples))
+  return fetch(`https://api.wit.ai/utterances?v=${APP_ID}`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${NEW_ACCESS_TOKEN}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(samples),
+    })
+    .then(res => res.json())
+}
+```
+
+After you understand the pre-script 
 Run the file with:
 ```sh
   node init-data/index.js
