@@ -1,10 +1,21 @@
 function intents
-if entities.value=='covid'
-   return 'Jumlah covid saat ini 500 kasus, 100 konfirmasi, 50 meninggal'
+if entities.value=='covid' && entities==wit/location
+   if 
+   return 'jumlah covid di {wit/location.resolvedvalue}adalah 100 kasus, 50 konfirmasi, 10 meninggal.
+jika anda mengalami gejala berikut indra perasa hilang, Susah bernafas, demam tinggi, batuk kering, kelelahan
+segera lakukan pengecekkan lebih lanjut di rumah sakit rujukan dan setelah lakukan test, jika positif
+di sarankan untuk melakukan karantina mandiri selama 14 hari dirumah anda, berikut artikel cara isolasi mandiri
+yang baik dan benar : https://kumparan.com/kumparannews/cara-karantina-mandiri-protokol-corona-1tCEvhtt8LG
+berikut rumah sakit rujukan di {wit/location.resolvedvalue}:
+1. rumah sakit Umum Fatmawati
+2. rumah sakit Hajarta neducak cebter
+3. rumah sakit pertamina.'
 else
-   return 'Maaf cocid tidak mengerti, apakah anda ingin mengetahui berita covid terbaru di kota kamu?'
-
-if utterance.value === 'yes'
-   return 'Berita terbaru hari ini kabar baik buat kita nih :D ditemukannya vaksin covid yang akan membantu penyembuhan di Indonesia"
-else
-   return 'Yah, sayang sekali cocid kira kamu ingin mengetahui berita terbaru :('
+   else
+	if entities=covid
+	return 'Maaf apakah ingin mengetahui info terbaru covid? Jika iya, sebagai contoh silahkan ketik jumlah covid di kota anda'
+	elseif entities=location
+	return 'Maaf cocid bingung kak :(
+apakah kamu ingin mengetahui info terbaru covid? Jika iya, sebagai contoh silahkan ketik jumlah covid di kota anda
+	else
+	return 'Maaf kak, cocid tidak mengerti :(. Jika ingin mengetahui info terbaru covid silahkan mengetik jumlah covid di kota kakak. contoh : jumlah covid di Jakarta"
