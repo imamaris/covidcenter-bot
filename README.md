@@ -1,6 +1,6 @@
 ## Overview
 
-![pic 1](/examples/neutral_positive.png | width=100) ![pic 2](/examples/negative.png | width=100) ![pic 3](/examples/p_negative.png | width=100)
+<img src="/examples/neutral_positive.png" width="30%"><img src="/examples/negative.png" width="30%"><img src="/examples/p_negative.png" width="30%">
 
 In this tutorial, we will be creating an API-based bot that give information covid to your account. The app will be able to process the user's text and respond to the user data about covid that they want. The key things we will explore is how to:
 
