@@ -1,6 +1,5 @@
 function intents
 if entities.value=='covid' && entities==wit/location
-   if 
    return 'jumlah covid di {wit/location.resolvedvalue}adalah 100 kasus, 50 konfirmasi, 10 meninggal.
 jika anda mengalami gejala berikut indra perasa hilang, Susah bernafas, demam tinggi, batuk kering, kelelahan
 segera lakukan pengecekkan lebih lanjut di rumah sakit rujukan dan setelah lakukan test, jika positif
@@ -11,7 +10,6 @@ berikut rumah sakit rujukan di {wit/location.resolvedvalue}:
 2. rumah sakit Jakarta Medical Centre (https://goo.gl/maps/oPnpyw2edFJcg3ha7)
 3. rumah sakit Umum Andhika (https://g.page/rsuandhika?share)
 else
-   else
 	if entities=covid
 	return 'Maaf kak, cocid ingin tahu covid di daerah apa ya kak? sebagai contoh kakak bisa mengetik kembali jumlah covid di kota kakak'
 	elseif entities=location
