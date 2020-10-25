@@ -7,13 +7,13 @@ segera lakukan pengecekkan lebih lanjut di rumah sakit rujukan dan setelah lakuk
 di sarankan untuk melakukan karantina mandiri selama 14 hari dirumah anda, berikut artikel cara isolasi mandiri
 yang baik dan benar : https://kumparan.com/kumparannews/cara-karantina-mandiri-protokol-corona-1tCEvhtt8LG
 berikut rumah sakit rujukan di {wit/location.resolvedvalue}:
-1. rumah sakit Umum Fatmawati
-2. rumah sakit Hajarta neducak cebter
-3. rumah sakit pertamina.'
+1. rumah sakit Umum Fatmawati (https://goo.gl/maps/GV6fZRxhEgg2PPjK7)
+2. rumah sakit Jakarta Medical Centre (https://goo.gl/maps/oPnpyw2edFJcg3ha7)
+3. rumah sakit Umum Andhika (https://g.page/rsuandhika?share)
 else
    else
 	if entities=covid
-	return 'Maaf apakah ingin mengetahui info terbaru covid? Jika iya, sebagai contoh silahkan ketik jumlah covid di kota anda'
+	return 'Maaf kak, cocid ingin tahu covid di daerah apa ya kak? sebagai contoh kakak bisa mengetik kembali jumlah covid di kota kakak'
 	elseif entities=location
 	return 'Maaf cocid bingung kak :(
 apakah kamu ingin mengetahui info terbaru covid? Jika iya, sebagai contoh silahkan ketik jumlah covid di kota anda
