@@ -383,12 +383,89 @@ When the `StreamRecordingRunnable` is finished recording and streaming the voice
 
 ```
 
-### Train covid_intent the Wit API
+### Add bot parser for NLP API
 
-When the `StreamRecordingRunnable` is finished recording and streaming the voice data, Wit will return the resolved intents and entities in the response. We will need to extract that information from the JSON and respond to the user appropriately.
+The first thing that you have to do is listing your bot behaviours and responses that come from entities that you have.
+
+We have covid_intents which have two entities.
+1. Covid entities
+2. Location entities
+
+In order to give covid result based on area, the intent should fulfill both entities.
+If one of them is not exist, we must asking user for the missing items.
+
+But, in order to make this bot simpler, we avoid Finite State Machine.
+We give response how user should send text to bot.
+
+Therefore, this is code you must add to your base setup.
 
 ```js
 
+// default response
+const DEFAULT_RESPONSE = 'Maaf kak, cocid tidak mengerti :(. Jika ingin mengetahui info terbaru covid silahkan mengetik jumlah covid di kota kakak. contoh : jumlah covid di Jakarta'
+
+function getMessageFromNlp(nlp) {
+  // intents checker
+  if (nlp.intents.length == 0) {
+    return DEFAULT_RESPONSE
+  }
+
+  // switch case the intent.
+  switch (nlp.intents[0].name) {
+    case 'covid_intents':
+      return getCovidResponse(nlp.entities)
+    case 'sentiment_intent':
+      return getSentimentResponse(nlp.traits.sentiment)
+    default:
+      return DEFAULT_RESPONSE
+  }
+}
+
+function getCovidResponse(entities) {
+  console.log(entities["covid:covid"]);
+  var city = ''
+  var isCovid = false
+  // iterate to find covid entities and location entities.
+  entities['covid:covid'].forEach(function(c) {
+    if (c.value == 'location') {
+      city = c.body
+    }
+    if (c.value == "covid") {
+      isCovid = true
+    }
+  })
+
+  if (isCovid && city != '') {
+    // covid response when covid and city is available.
+    var totalCase = getRandomNumber(1,100)
+    var confirmCase = getRandomNumber(1, totalCase)
+    return `jumlah covid di ${city} adalah ${totalCase} kasus, ${confirmCase} konfirmasi, ${totalCase - confirmCase} meninggal.\n
+jika anda mengalami gejala berikut indra perasa hilang, Susah bernafas, demam tinggi, batuk kering, kelelahan
+segera lakukan pengecekkan lebih lanjut di rumah sakit rujukan dan setelah lakukan test, jika positif
+di sarankan untuk melakukan karantina mandiri selama 14 hari dirumah anda. \n\n berikut artikel cara isolasi mandiri
+yang baik dan benar : https://kumparan.com/kumparannews/cara-karantina-mandiri-protokol-corona-1tCEvhtt8LG
+berikut rumah sakit rujukan di ${city}:\n
+1. rumah sakit Umum Fatmawati (https://goo.gl/maps/GV6fZRxhEgg2PPjK7)\n
+2. rumah sakit Jakarta Medical Centre (https://goo.gl/maps/oPnpyw2edFJcg3ha7)\n
+3. rumah sakit Umum Andhika (https://g.page/rsuandhika?share)`
+  } else if (isCovid) {
+    // response when location is not provided (ask the location and give how they should give message)
+    return 'Maaf kak, cocid ingin tahu covid di daerah apa ya kak? sebagai contoh kakak bisa mengetik kembali jumlah covid di kota kakak'
+  }
+
+  return DEFAULT_RESPONSE;
+}
+
+// random the total case 
+function getRandomNumber(start, end) {
+  return Math.floor(Math.random() * end-start) + start
+}
+```
+
+and change the function `getSentimentResponse` to `getMessageFromNlp` on post webhook.
+```js
+- text: getSentimentResponse(message.nlp.traits.sentiment),
++ text: getMessageFromNlp(message.nlp),
 ```
 
 ## Review and continue improving your Wit app
@@ -397,20 +474,25 @@ As you are testing the app, you might notice that certain utterances are not res
 
 ## Next Steps
 
-For demonstration purposes, we’ve created a very simple greeting app, but you can create a much more engaging and interactive voice-enabled app. Try sketching out a larger conversation flow with various scenarios and see our [documentation](https://wit.ai/docs) to learn more about other Wit features e.g. other built-in entities, custom entities, and traits (I recommend the [sentiment analysis trait](https://wit.ai/docs/built-in-entities#wit_sentiment)).
+For demonstration purposes, we’ve created a very simple covid bot, but you can create a much more engaging and interactive bot. Try sketching out a larger conversation flow with various scenarios and see Wit [documentation](https://wit.ai/docs) to learn more about other Wit features e.g. other built-in entities, custom entities, and traits.
+
+If you want to add features, we have recommendation feature to add:
+1. Finite State Machine.
+2. Integrate Covid API.
+3. More data to train.
+4. Use time entities.
 
 We look forward to what you will develop! To stay connected, join the [Wit Hackers Facebook Group](https://www.facebook.com/groups/withackers) and follow us on [Twitter @FBPlatform](https://twitter.com/fbplatform).
 
 
 ## Related Content
 
-* [Wit Speech API](https://wit.ai/docs/http#post__speech_link)
 * [Wit Documentation](https://wit.ai/docs)
 * [Wit GitHub](https://github.com/wit-ai)
 * [Wit Blog](https://wit.ai/blog)
 
 ## Contributing
-See the [CONTRIBUTING](CONTRIBUTING.md) file for how to help out.
+Just make issue and PR if you want to contribute. we will review your PR.
 
 ## License
 Wit.ai Android Voice Demo is licensed, as found in the [LICENSE](LICENSE) file.
