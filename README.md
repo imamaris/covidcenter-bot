@@ -21,6 +21,8 @@ Ngrok is reverse proxy, it allow you deploy at local with random link.
 ## Design the User Interaction
 
 When designing applications with interactions, it's important to understand the various ways that a user may interact with your app. Some techniques that can help with modeling the conversation is writing a script or creating a flow diagram. For our covid app, let's write a script to outline it.
+## Action FLow
+![alt text](./examples/flow.png 'Cara Kerja Aplikasi')
 
 Let's consider the following conversation as the happy path:
 ```
@@ -137,7 +139,7 @@ We could give an example of this like sentiment on reaction_intent.
 Utterances is sample data which define a sentence to be categorized to an intent and have entities and traits.
 This term will be used to train data, for example: 
 
-![pic utterance](/examples/utterance.png)
+![pic utterance](./examples/utterance.png)
 
 Now that we are understand, let’s train our Wit app to process the user’s response to the app.
 
@@ -187,7 +189,7 @@ Huhuhuhu   sentiment   negatif
 
 Get Your Seed Token
 
-![overview](/examples/seed_token.png)
+![overview](./examples/seed_token.png)
 
 In order to start using the Wit.ai API, we need to start with some identification. Make sure you have signed up for [Wit.ai](https://wit.ai) if you haven't already.
 
@@ -348,7 +350,7 @@ After we get https webhook url, and working Wit.API, we change our facebook app 
 
 Configure the webhook for your app
 
-![wit messenger](/examples/edit_callback_url.png)
+![wit messenger](./examples/edit_callback_url.png)
 
 1. In the 'Webhooks' section of the Messenger settings console, click the 'Setup Webhooks' button.
 2. In the 'Callback URL' field, enter the ngrok URL for your webhook. (example: https://3c37b05d146e.ngrok.io)
@@ -454,7 +456,7 @@ you see, we have text, value, start, end and you can check again our covid_inten
 
 - **value** is your entities, how our application will learn the word we highlighted and training it against the user utterance. In covid_intent.tsv you can see next word after the utterance. ex: "covid"
 
-- **start** is the starting index within the text your utterance data. You can se in covid_intent.tsv on third words column.
+- **start** is the starting index within the text your utterance data. You can see in covid_intent.tsv on third words column.
 
 - **end** is the ending index within the text your utterance data.
 
@@ -464,7 +466,7 @@ Enjoy, and hack your bot !!! 🤖 📱
 
 🏆🏆🏆
 
-<img src="./examples/test_covid.png" width="40%">
+<img src="./examples/test_covid.png" width="40%"><img src="./examples/test_messenger_covid.gif" width="40%">
 
 ### Add bot parser for NLP API
 
