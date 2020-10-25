@@ -10,6 +10,8 @@ const { queryGraph } = require('../shared')
 const ACCESS_TOKEN =
   ''
 
+const DEFAULT_RESPONSE = 'Maaf kak, cocid tidak mengerti :(. Jika ingin mengetahui info terbaru covid silahkan mengetik jumlah covid di kota kakak. contoh : jumlah covid di Jakarta'
+
 // Sets server port and logs message on success
 app.listen(process.env.PORT || 1337, () => console.log('webhook is listening'))
 
@@ -37,7 +39,7 @@ app.post('/webhook', (req, res) => {
             id: webhook_event.sender.id,
           },
           message: {
-            text: getSentimentResponse(message.nlp.traits.sentiment),
+            text: getMessageFromNlp(message.nlp),
           },
         }
         queryGraph(messageReply, ACCESS_TOKEN)
@@ -52,6 +54,56 @@ app.post('/webhook', (req, res) => {
   }
 
 });
+
+function getMessageFromNlp(nlp) {
+  if (nlp.intents.length == 0) {
+    return DEFAULT_RESPONSE
+  }
+  switch (nlp.intents[0].name) {
+    case 'covid_intents':
+      return getCovidResponse(nlp.entities)
+    case 'sentiment_intent':
+      return getSentimentResponse(nlp.traits.sentiment)
+    default:
+      return DEFAULT_RESPONSE
+  }
+}
+
+function getCovidResponse(entities) {
+  console.log(entities["covid:covid"]);
+  var city = ''
+  var isCovid = false
+  entities['covid:covid'].forEach(function(c) {
+    if (c.value == 'location') {
+      city = c.body
+    }
+    if (c.value == "covid") {
+      isCovid = true
+    }
+  })
+
+  if (isCovid && city != '') {
+    var totalCase = getRandomNumber(1,100)
+    var confirmCase = getRandomNumber(1, totalCase)
+    return `jumlah covid di ${city} adalah ${totalCase} kasus, ${confirmCase} konfirmasi, ${totalCase - confirmCase} meninggal.\n
+jika anda mengalami gejala berikut indra perasa hilang, Susah bernafas, demam tinggi, batuk kering, kelelahan
+segera lakukan pengecekkan lebih lanjut di rumah sakit rujukan dan setelah lakukan test, jika positif
+di sarankan untuk melakukan karantina mandiri selama 14 hari dirumah anda. \n\n berikut artikel cara isolasi mandiri
+yang baik dan benar : https://kumparan.com/kumparannews/cara-karantina-mandiri-protokol-corona-1tCEvhtt8LG
+berikut rumah sakit rujukan di {wit/location.resolvedvalue}:\n
+1. rumah sakit Umum Fatmawati (https://goo.gl/maps/GV6fZRxhEgg2PPjK7)\n
+2. rumah sakit Jakarta Medical Centre (https://goo.gl/maps/oPnpyw2edFJcg3ha7)\n
+3. rumah sakit Umum Andhika (https://g.page/rsuandhika?share)`
+  } else if (isCovid) {
+    return 'Maaf kak, cocid ingin tahu covid di daerah apa ya kak? sebagai contoh kakak bisa mengetik kembali jumlah covid di kota kakak'
+  }
+
+  return DEFAULT_RESPONSE;
+}
+
+function getRandomNumber(start, end) {
+  return Math.floor(Math.random() * end-start) + start
+}
 
 function getSentimentResponse(sentiment) {
   if (sentiment === undefined ) {
