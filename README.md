@@ -172,9 +172,7 @@ For more information on this, see the [Quick Start](https://wit.ai/docs/quicksta
 
 ### Wit AI API
 
-Before we implement, we should read [Wit.AI API Documentation](https://wit.ai/docs/http/20200513/) first.
-
-After we understand the API, open the [Wit.ai Covid Center init data script](https://github.com/imamaris/covidcenter-bot/tree/init-data)
+Open the [Wit.ai Covid Center init data script](https://github.com/imamaris/covidcenter-bot/tree/init-data)
 
 Update the `sentiment.tsv` and add
 ```tsv
@@ -204,52 +202,6 @@ const NEW_ACCESS_TOKEN = '' // TODO: fill this in
 const APP_ID = ''; // TODO: fill this in
 ```
 
-The script is reading data from tsv and hit [Utterances API](https://wit.ai/docs/http/20200513/#post__utterances_link).
-In this script, we use doubletab to enable data with tab and node fetch to hit api.
-We could change utterances constractor and the map for another needs if we want to train another data.
-
-```js
-// read data with `\n` splitting
-const data = fs
-  .readFileSync(fileName, 'utf-8')
-  .split('\n')
-  .map((row) => row.split(DOUBLETAB))
-
-// mapping 3 column into construct function
-const samples = data.map(([text, trait, value]) => {
-  // utterances constractor
-  return {
-    text: text,
-    intent: intentName,
-    entities: [],
-    traits: [
-      {
-        trait: trait,
-        value: value,
-      },
-    ],
-  }
-});
-
-// hit and log the response
-validateUtterances(samples).then((res) => console.log(res))
-
-// hit utterances API https://wit.ai/docs/http/20200513/#post__utterances_link
-function validateUtterances(samples) {
-  console.log(JSON.stringify(samples))
-  return fetch(`https://api.wit.ai/utterances?v=${APP_ID}`, {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${NEW_ACCESS_TOKEN}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(samples),
-    })
-    .then(res => res.json())
-}
-```
-
-After you understand the pre-script 
 Run the file with:
 ```sh
   node init-data/index.js
@@ -373,126 +325,120 @@ To try the Built-in NLP Page Inbox feature with your Messenger experience, do th
 
 Now, after you set your webhook and NLP, you could test your chatbot.
 
-<img src="/examples/neutral_positive.png" width="30%"><img src="/examples/negative.png" width="30%"><img src="/examples/p_negative.png" width="30%">
+<img src="./examples/neutral_positive.png" width="30%"><img src="./examples/negative.png" width="30%"><img src="./examples/p_negative.png" width="30%">
 
 ### Train covid_intent the Wit API
+We are going to create intents to define what the user's utterance for our wit.AI application will understand. On the dashboard click on intents, click **+Intents** to add a new intents.
+![alt text](./examples/create_intent.gif)
 
-When the `StreamRecordingRunnable` is finished recording and streaming the voice data, Wit will return the resolved intents and entities in the response. We will need to extract that information from the JSON and respond to the user appropriately.
+Next, we create training intents, entities and utterance which the user will likely do on the understanding menu. Add a utterance:
+    1. Make sure you are in **Train Your App** page by click **Understanding** on top right menu.
+    2. enter `jumlah covid di jakarta` into **Utterance** text box.
+    3. Label it your entitites into utterence by highlight `covid` and enter `covid_intents`, klik **Create Intents** as a entitites dan highlight again `jakarta` and choice `wit/location`.
+    4.  Submit your first utterance by click **Train and Validate**. Training will be start a few seconds  - you can check the status training on top right corner.
+![alt text](./examples/training.gif)
 
-```js
+To find out whether our training has been successful, you can try to re-enter words related to the training we are doing, namely Covid and Jakarta and make sure the confidence reaches above 90% to test the validity of our intentions.
 
 ```
-
-### Add bot parser for NLP API
-
-The first thing that you have to do is listing your bot behaviours and responses that come from entities that you have.
-
-We have covid_intents which have two entities.
-1. Covid entities
-2. Location entities
-
-In order to give covid result based on area, the intent should fulfill both entities.
-If one of them is not exist, we must asking user for the missing items.
-
-But, in order to make this bot simpler, we avoid Finite State Machine.
-We give response how user should send text to bot.
-
-Therefore, this is code you must add to your base setup.
-
-```js
-
-// default response
-const DEFAULT_RESPONSE = 'Maaf kak, cocid tidak mengerti :(. Jika ingin mengetahui info terbaru covid silahkan mengetik jumlah covid di kota kakak. contoh : jumlah covid di Jakarta'
-
-function getMessageFromNlp(nlp) {
-  // intents checker
-  if (nlp.intents.length == 0) {
-    return DEFAULT_RESPONSE
-  }
-
-  // switch case the intent.
-  switch (nlp.intents[0].name) {
-    case 'covid_intents':
-      return getCovidResponse(nlp.entities)
-    case 'sentiment_intent':
-      return getSentimentResponse(nlp.traits.sentiment)
-    default:
-      return DEFAULT_RESPONSE
-  }
-}
-
-function getCovidResponse(entities) {
-  console.log(entities["covid:covid"]);
-  var city = ''
-  var isCovid = false
-  // iterate to find covid entities and location entities.
-  entities['covid:covid'].forEach(function(c) {
-    if (c.value == 'location') {
-      city = c.body
-    }
-    if (c.value == "covid") {
-      isCovid = true
-    }
-  })
-
-  if (isCovid && city != '') {
-    // covid response when covid and city is available.
-    var totalCase = getRandomNumber(1,100)
-    var confirmCase = getRandomNumber(1, totalCase)
-    return `jumlah covid di ${city} adalah ${totalCase} kasus, ${confirmCase} konfirmasi, ${totalCase - confirmCase} meninggal.\n
-jika anda mengalami gejala berikut indra perasa hilang, Susah bernafas, demam tinggi, batuk kering, kelelahan
-segera lakukan pengecekkan lebih lanjut di rumah sakit rujukan dan setelah lakukan test, jika positif
-di sarankan untuk melakukan karantina mandiri selama 14 hari dirumah anda. \n\n berikut artikel cara isolasi mandiri
-yang baik dan benar : https://kumparan.com/kumparannews/cara-karantina-mandiri-protokol-corona-1tCEvhtt8LG
-berikut rumah sakit rujukan di ${city}:\n
-1. rumah sakit Umum Fatmawati (https://goo.gl/maps/GV6fZRxhEgg2PPjK7)\n
-2. rumah sakit Jakarta Medical Centre (https://goo.gl/maps/oPnpyw2edFJcg3ha7)\n
-3. rumah sakit Umum Andhika (https://g.page/rsuandhika?share)`
-  } else if (isCovid) {
-    // response when location is not provided (ask the location and give how they should give message)
-    return 'Maaf kak, cocid ingin tahu covid di daerah apa ya kak? sebagai contoh kakak bisa mengetik kembali jumlah covid di kota kakak'
-  }
-
-  return DEFAULT_RESPONSE;
-}
-
-// random the total case 
-function getRandomNumber(start, end) {
-  return Math.floor(Math.random() * end-start) + start
-}
+$ curl -XGET "https://api.wit.ai/utterances?v=$APPID&limit=10" -H "Authorization: Bearer $YOURTOKEN"
 ```
+![alt text](./examples/get_api.png 'Create App')
 
-and change the function `getSentimentResponse` to `getMessageFromNlp` on post webhook.
-```js
-- text: getSentimentResponse(message.nlp.traits.sentiment),
-+ text: getMessageFromNlp(message.nlp),
+You may have heard that the most important part of machine learning is data training. At this step, we're only providing our Wit app with a single data point, so let's think about the natural variations the user might respond to and repeat steps # 4 through # 5.
+
+Ok, Allright now we understand about intents, entities, and utterance. Now We go to next step, how to input automatically your utterance with large data training. You can check this step:
+1. You can clone our github [See how to input Utterance](https://github.com/imamaris/covidcenter-bot/tree/covid-template/init-data)
+2. Now you can see file in [Dataset covid intent.tsv](https://github.com/imamaris/covidcenter-bot/tree/covid-template/init-data/datasets), that is file tsv dataset for training our apps. 
+3. Update the `covid_intent.tsv` and add
+```tsv
+covid meninggal   covid   0   5
+covid di Jaksel    location   9   15
+covid di Bogor    location   9   15
+rumah sakit rujukan   location   0   11
+gejala covid    covid   0   6
+covid di Bandung    location   9   16
+zona merah di Jakarta   covid   0   10
+total covid di Bandung    covid   0   5
+zona hijau di jakarta    covid   9   10
 ```
+When the `StreamRecordingRunnable` is finished recording and streaming the text data, Wit will return the resolved intents and entities in the response. We will need to extract that information from the JSON and respond to the user appropriately.
+
+4. Next, we need [init data script](https://github.com/imamaris/covidcenter-bot/tree/init-data) for training your data. you can check this script:
+
+covid_intents.js
+```js
+const fs = require('fs');
+const fetch = require('node-fetch');
+const { validateUtterances } = require('../shared')
+
+const DOUBLETAB = '   ';
+const fileName = 'init-data/covid_intent.tsv'
+const intentName = 'covid_intents'
+const entityName = 'covid:covid'
+const data = fs
+  .readFileSync(fileName, 'utf-8')
+  .split('\r\n')
+  .map((row) => row.split(DOUBLETAB))
+
+const samples = data.map(([text, value, start, end]) => {
+  return {
+    text: text,
+    intent: intentName,
+    entities: [
+        {
+            entity: entityName,
+            start: start,
+            end: end,
+            body: value,
+            entities: [],
+        }
+    ],
+    traits: [],
+  }
+});
+
+validateUtterances(samples).then((res) => console.log(res))
+```
+you see, we have text, value, start, end and you can check again our covid_intent.tsv again. We explain for you:
+
+- **text** is an utterance of how the user is likely to chat on Facebook messenger. In our tsv file, contained in the first word is the utterance of the user. ex: "covid di Jaksel"
+
+- **value** is your entities, how our application will learn the word we highlighted and training it against the user utterance. In covid_intent.tsv you can see next word after the utterance. ex: "covid"
+
+- **start** is the starting index within the text your utterance data. You can se in covid_intent.tsv on third words column.
+
+- **end** is the ending index within the text your utterance data.
+
+Now you can try your bot on facebook messenger, repeat step [set your webhook and NLP ](#Set-your-webhook-and-NLP-------)from start to finish your setup messenger.
+
+Enjoy, and hack your bot !!! 🤖 📱 
+
+🏆🏆🏆
+
+<img src="./examples/test_covid.png" width="40%">
 
 ## Review and continue improving your Wit app
 
 As you are testing the app, you might notice that certain utterances are not resolving to the proper intents. To address this, go to [Wit.ai](https://wit.ai/) and on the **Understanding** page you should see utterances that have been sent to the API endpoint. You can review each utterance by expanding one and making sure that the entity is properly identified and resolving to the correct intent. If there are utterances not relevant to your use case (invalid utterances), you can mark them as **Out of Scope**.
 
+
 ## Next Steps
 
-For demonstration purposes, we’ve created a very simple covid bot, but you can create a much more engaging and interactive bot. Try sketching out a larger conversation flow with various scenarios and see Wit [documentation](https://wit.ai/docs) to learn more about other Wit features e.g. other built-in entities, custom entities, and traits.
-
-If you want to add features, we have recommendation feature to add:
-1. Finite State Machine.
-2. Integrate Covid API.
-3. More data to train.
-4. Use time entities.
+For demonstration purposes, we’ve created a very simple greeting app, but you can create a much more engaging and interactive voice-enabled app. Try sketching out a larger conversation flow with various scenarios and see our [documentation](https://wit.ai/docs) to learn more about other Wit features e.g. other built-in entities, custom entities, and traits (I recommend the [sentiment analysis trait](https://wit.ai/docs/built-in-entities#wit_sentiment)).
 
 We look forward to what you will develop! To stay connected, join the [Wit Hackers Facebook Group](https://www.facebook.com/groups/withackers) and follow us on [Twitter @FBPlatform](https://twitter.com/fbplatform).
 
 
 ## Related Content
 
+* [Wit Speech API](https://wit.ai/docs/http#post__speech_link)
 * [Wit Documentation](https://wit.ai/docs)
 * [Wit GitHub](https://github.com/wit-ai)
 * [Wit Blog](https://wit.ai/blog)
 
 ## Contributing
-Just make issue and PR if you want to contribute. we will review your PR.
+See the [CONTRIBUTING](CONTRIBUTING.md) file for how to help out.
 
 ## License
 Wit.ai Android Voice Demo is licensed, as found in the [LICENSE](LICENSE) file.
