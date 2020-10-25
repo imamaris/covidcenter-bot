@@ -12,8 +12,11 @@ In this tutorial, we will be creating an API-based bot that give information cov
 
 *   Create a [Wit.ai](https://wit.ai/) account
 *   Clone this repository [Wit.ai Covid Center Demo](https://github.com/imamaris/covidcenter-bot) from GitHub
-*   Create Facebook App with Messenger [Link](https://to-be-announced-link)
-*   Install Ngrok [Link](https://ngrok.com/download) 
+*   Create Facebook Page | [Link](https://www.facebook.com/pages/create)
+*   Create Facebook App | [Tutorial](https://developers.facebook.com/docs/apps/)
+*   Download & Install Ngrok [Link](https://ngrok.com/download)
+
+Ngrok is reverse proxy, it allow you deploy at local with random link.
 
 ## Design the User Interaction
 
@@ -243,8 +246,9 @@ The Messenger Platform will be added to your app, and the Messenger settings con
 
 Open the [Wit.ai Covid Center bot demo](https://github.com/imamaris/covidcenter-bot/tree/bot/index.js) int and run
 
-Next update `API_TOKEN` and `VERIFY_TOKEN` variable to get webhook as follows:
+Get `ACCESS_TOKEN` and `VERIFY_TOKEN` from Your App. See [Webhook Setup](https://developers.facebook.com/docs/messenger-platform/getting-started/webhook-setup/) for further reference.
 
+Next update `ACCESS_TOKEN` and `VERIFY_TOKEN` variable to get webhook as follows:
 ```js
 const ACCESS_TOKEN = '' // line 11
 let VERIFY_TOKEN = '' // line 74
@@ -288,7 +292,7 @@ ngrok http 1337
 
 ![ngrok](/examples/ngrok.png)
 
-We could access your API from https://3c37b05d146e.ngrok.io
+We could access your API from this example is : https://3c37b05d146e.ngrok.io (this is random url from ngrok, you will generate another link)
 
 ### Set your webhook and NLP
 
@@ -321,7 +325,7 @@ To try the Built-in NLP Page Inbox feature with your Messenger experience, do th
 
 Now, after you set your webhook and NLP, you could test your chatbot.
 
-![pic 1](/examples/neutral_positive.png | width=100) ![pic 2](/examples/negative.png | width=100) ![pic 3](/examples/p_negative.png | width=100)
+<img src="/examples/neutral_positive.png" width="30%"><img src="/examples/negative.png" width="30%"><img src="/examples/p_negative.png" width="30%">
 
 ### Train covid_intent the Wit API
 
