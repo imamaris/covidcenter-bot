@@ -1,8 +1,7 @@
 ## Overview
 
-Figure to explain the result of this tutorial.
+![pic 1](/examples/neutral_positive.png | width=100) ![pic 2](/examples/negative.png | width=100) ![pic 3](/examples/p_negative.png | width=100)
 
-![pic 1](/examples/neutral_positive.png) ![pic 2](/examples/negative.png) ![pic 3](/examples/p_negative.png)
 In this tutorial, we will be creating an API-based bot that give information covid to your account. The app will be able to process the user's text and respond to the user data about covid that they want. The key things we will explore is how to:
 
 *   Design the user interaction and Architecture
@@ -170,7 +169,7 @@ For more information on this, see the [Quick Start](https://wit.ai/docs/quicksta
 
 ### Wit AI API
 
-Open the [Wit.ai Covid Center init data script](https://github.com/imamaris/covidcenter-bot/tree/init-data))
+Open the [Wit.ai Covid Center init data script](https://github.com/imamaris/covidcenter-bot/tree/init-data)
 
 Update the `sentiment.tsv` and add
 ```tsv
@@ -207,7 +206,7 @@ Run the file with:
 
 ### Test your Wit.AI App with API
 
-Open the [Wit.ai Covid Center init data script](https://github.com/imamaris/covidcenter-bot/tree/init-data))
+Open the [Wit.ai Covid Center init data script](https://github.com/imamaris/covidcenter-bot/tree/init-data)
 
 Update the `test.tsv` and add
 ```tsv
@@ -242,7 +241,7 @@ The Messenger Platform will be added to your app, and the Messenger settings con
 
 ### Add an webhook to your Messenger bot
 
-Open the [Wit.ai Covid Center bot demo](https://github.com/imamaris/covidcenter-bot/tree/bot/index.js)) int and run
+Open the [Wit.ai Covid Center bot demo](https://github.com/imamaris/covidcenter-bot/tree/bot/index.js) int and run
 
 Next update `API_TOKEN` and `VERIFY_TOKEN` variable to get webhook as follows:
 
@@ -322,7 +321,7 @@ To try the Built-in NLP Page Inbox feature with your Messenger experience, do th
 
 Now, after you set your webhook and NLP, you could test your chatbot.
 
-![pic 1](/examples/neutral_positive.png) ![pic 2](/examples/negative.png) ![pic 3](/examples/p_negative.png)
+![pic 1](/examples/neutral_positive.png | width=100) ![pic 2](/examples/negative.png | width=100) ![pic 3](/examples/p_negative.png | width=100)
 
 ### Train covid_intent the Wit API
 
