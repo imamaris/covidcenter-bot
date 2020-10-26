@@ -22,8 +22,6 @@ Ngrok is reverse proxy, it allow you deploy at local with random link.
 ## Design the User Interaction
 
 When designing applications with interactions, it's important to understand the various ways that a user may interact with your app. Some techniques that can help with modeling the conversation is writing a script or creating a flow diagram. For our covid app, let's write a script to outline it.
-## Action FLow
-![alt text](./examples/flow.png 'Cara Kerja Aplikasi')
 
 ![alt text](./examples/flow.png 'Cara Kerja Aplikasi')
 
