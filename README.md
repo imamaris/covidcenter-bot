@@ -1,6 +1,7 @@
 ## Overview
-
-<img src="./examples/test_messenger_covid.gif" width="40%" style= "margin: 0 auto;display:block">
+<p align="center">
+  <img src="./examples/test_messenger_covid.gif" width="40%">
+</p>
 
 In this tutorial, we will be creating an API-based bot that give information covid to your account. The app will be able to process the user's text and respond to the user data about covid that they want. The key things we will explore is how to:
 
@@ -379,7 +380,10 @@ Now, after you set your webhook and NLP, you could test your chatbot.
 
 ### Train covid_intent the Wit API
 We are going to create intents to define what the user's utterance for our wit.AI application will understand. On the dashboard click on intents, click **+Intents** to add a new intents.
-<img src="./examples/create_intent.gif" style= "margin: 0 auto;display:block">
+
+<p align="center">
+<img src="./examples/create_intent.gif">
+</p>
 
 Next, we create training intents, entities and utterance which the user will likely do on the understanding menu. Add a utterance:
 
@@ -388,14 +392,19 @@ Next, we create training intents, entities and utterance which the user will lik
 3. Label it your entitites into utterence by highlight `covid` and enter `covid_intents`, klik **Create Intents** as a entitites dan highlight again `jakarta` and choice `wit/location`.
 4.  Submit your first utterance by click **Train and Validate**. Training will be start a few seconds  - you can check the status training on top right corner.
 
-<img src="./examples/training.gif" style= "margin: 0 auto;display:block">
+<p align="center">
+<img src="./examples/training.gif">
+</p>
 
 To find out whether our training has been successful, you can try to re-enter words related to the training we are doing, namely Covid and Jakarta and make sure the confidence reaches above 90% to test the validity of our intentions.
 
 ```
 $ curl -XGET "https://api.wit.ai/utterances?v=$APPID&limit=10" -H "Authorization: Bearer $YOURTOKEN"
 ```
-<img src="/examples/get_api.png" style= "margin: 0 auto;display:block">
+
+<p align="center">
+<img src="/examples/get_api.PNG">
+</p>
 
 You may have heard that the most important part of machine learning is data training. At this step, we're only providing our Wit app with a single data point, so let's think about the natural variations the user might respond to and repeat steps # 4 through # 5.
 
