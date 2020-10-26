@@ -1,6 +1,6 @@
 ## Overview
 
-<img src="/examples/neutral_positive.png" width="30%"><img src="/examples/negative.png" width="30%"><img src="/examples/p_negative.png" width="30%">
+<img src="./examples/test_messenger_covid.gif" width="40%" style= "margin: 0 auto;display:block">
 
 In this tutorial, we will be creating an API-based bot that give information covid to your account. The app will be able to process the user's text and respond to the user data about covid that they want. The key things we will explore is how to:
 
@@ -379,21 +379,23 @@ Now, after you set your webhook and NLP, you could test your chatbot.
 
 ### Train covid_intent the Wit API
 We are going to create intents to define what the user's utterance for our wit.AI application will understand. On the dashboard click on intents, click **+Intents** to add a new intents.
-![alt text](./examples/create_intent.gif)
+<img src="./examples/create_intent.gif" style= "margin: 0 auto;display:block">
 
 Next, we create training intents, entities and utterance which the user will likely do on the understanding menu. Add a utterance:
-    1. Make sure you are in **Train Your App** page by click **Understanding** on top right menu.
-    2. enter `jumlah covid di jakarta` into **Utterance** text box.
-    3. Label it your entitites into utterence by highlight `covid` and enter `covid_intents`, klik **Create Intents** as a entitites dan highlight again `jakarta` and choice `wit/location`.
-    4.  Submit your first utterance by click **Train and Validate**. Training will be start a few seconds  - you can check the status training on top right corner.
-![alt text](./examples/training.gif)
+
+1. Make sure you are in **Train Your App** page by click **Understanding** on top right menu.
+2. enter `jumlah covid di jakarta` into **Utterance** text box.
+3. Label it your entitites into utterence by highlight `covid` and enter `covid_intents`, klik **Create Intents** as a entitites dan highlight again `jakarta` and choice `wit/location`.
+4.  Submit your first utterance by click **Train and Validate**. Training will be start a few seconds  - you can check the status training on top right corner.
+
+<img src="./examples/training.gif" style= "margin: 0 auto;display:block">
 
 To find out whether our training has been successful, you can try to re-enter words related to the training we are doing, namely Covid and Jakarta and make sure the confidence reaches above 90% to test the validity of our intentions.
 
 ```
 $ curl -XGET "https://api.wit.ai/utterances?v=$APPID&limit=10" -H "Authorization: Bearer $YOURTOKEN"
 ```
-![alt text](./examples/get_api.png 'Create App')
+<img src="/examples/get_api.png" style= "margin: 0 auto;display:block">
 
 You may have heard that the most important part of machine learning is data training. At this step, we're only providing our Wit app with a single data point, so let's think about the natural variations the user might respond to and repeat steps # 4 through # 5.
 
@@ -459,14 +461,6 @@ you see, we have text, value, start, end and you can check again our covid_inten
 - **start** is the starting index within the text your utterance data. You can see in covid_intent.tsv on third words column.
 
 - **end** is the ending index within the text your utterance data.
-
-Now you can try your bot on facebook messenger, repeat step [set your webhook and NLP ](#Set-your-webhook-and-NLP-------)from start to finish your setup messenger.
-
-Enjoy, and hack your bot !!! 🤖 📱 
-
-🏆🏆🏆
-
-<img src="./examples/test_covid.png" width="40%"><img src="./examples/test_messenger_covid.gif" width="40%">
 
 ### Add bot parser for NLP API
 
@@ -552,6 +546,13 @@ and change the function `getSentimentResponse` to `getMessageFromNlp` on post we
 - text: getSentimentResponse(message.nlp.traits.sentiment),
 + text: getMessageFromNlp(message.nlp),
 ```
+Now you can try your bot on facebook messenger, repeat step [set your webhook and NLP ](#Set-your-webhook-and-NLP-------)from start to finish your setup messenger.
+
+Enjoy, and hack your bot !!! 🤖 📱 
+
+🏆🏆🏆
+
+<img src="./examples/test_messenger_covid.gif" width="40%" style= "margin: 0 auto;display:block">
 
 ## Review and continue improving your Wit app
 
