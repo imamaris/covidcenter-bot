@@ -5,9 +5,9 @@
 
 In this tutorial, we will be creating an API-based bot that give information covid to your account. The app will be able to process the user's text and respond to the user data about covid that they want. The key things we will explore is how to:
 
-*   Design the user interaction and Architecture
-*   Create and train a Wit app to do natural language processing (NLP)
-*   Integrate Wit with your Messenger Bot
+*   [Design the user interaction and Architecture](https://github.com/imamaris/covidcenter-bot/blob/main/README.md#design-the-user-interaction)
+*   [Create and train a Wit app to do natural language processing (NLP)](https://github.com/imamaris/covidcenter-bot/blob/main/README.md#understand-terms-in-wit-app-to-do-natural-language-processing-nlp)
+*   [Integrate Wit with your Messenger Bot](https://github.com/imamaris/covidcenter-bot/blob/main/README.md#integrate-wit-with-your-messenger-bot)
 
 ## Prerequisites
 
@@ -22,7 +22,8 @@ Ngrok is reverse proxy, it allow you deploy at local with random link.
 ## Design the User Interaction
 
 When designing applications with interactions, it's important to understand the various ways that a user may interact with your app. Some techniques that can help with modeling the conversation is writing a script or creating a flow diagram. For our covid app, let's write a script to outline it.
-## Action FLow
+
+Action Flow
 ![alt text](./examples/flow.png 'Cara Kerja Aplikasi')
 
 Let's consider the following conversation as the happy path:
