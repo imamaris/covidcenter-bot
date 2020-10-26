@@ -133,7 +133,7 @@ Intent: Bagaimana cuaca , Entities: Kota: Jakarta Waktu: Besok
 Mesin dapat melakukan kueri ke database dalam tabel cuaca(intent) dengan jakarta sebagai kota dan kueri besok (entities)
 
 Jadi apa itu trait ?
-Sifat adalah kecenderungan suatu intent.
+trait adalah kecenderungan suatu intent.
 Kita bisa memberikan contoh sentimen seperti ini pada reaction_intent.
 
 "Sedih" (negative)
