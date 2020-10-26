@@ -22,6 +22,8 @@ Ngrok is reverse proxy, it allow you deploy at local with random link.
 ## Design the User Interaction
 
 When designing applications with interactions, it's important to understand the various ways that a user may interact with your app. Some techniques that can help with modeling the conversation is writing a script or creating a flow diagram. For our covid app, let's write a script to outline it.
+## Action FLow
+![alt text](./examples/flow.png 'Cara Kerja Aplikasi')
 
 ![alt text](./examples/flow.png 'Cara Kerja Aplikasi')
 
@@ -402,12 +404,11 @@ your_covid_intent.tsv
 rumah sakit rujukan di Bogor   location   23   27
 gejala covid    covid   0   6
 ```
-
-
 4. Next, we need [init data script](https://github.com/imamaris/covidcenter-bot/tree/covid-template/init-data) for training your data. you can check this script:
 
 init-data/covid_intents.js
 
+covid_intents.js
 ```js
 const fs = require('fs');
 const fetch = require('node-fetch');
