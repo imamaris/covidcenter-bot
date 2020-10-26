@@ -561,7 +561,9 @@ Enjoy, and hack your bot !!! 🤖 📱
 
 🏆🏆🏆
 
-<img src="./examples/test_messenger_covid.gif" width="40%" style= "margin: 0 auto;display:block">
+<p align="center">
+<img src="./examples/test_messenger_covid.gif" width="40%">
+</p>
 
 ## Review and continue improving your Wit app
 
