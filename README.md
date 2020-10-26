@@ -21,6 +21,8 @@ Ngrok is reverse proxy, it allow you deploy at local with random link.
 ## Design the User Interaction
 
 When designing applications with interactions, it's important to understand the various ways that a user may interact with your app. Some techniques that can help with modeling the conversation is writing a script or creating a flow diagram. For our covid app, let's write a script to outline it.
+## Action FLow
+![alt text](./examples/flow.png 'Cara Kerja Aplikasi')
 
 Let's consider the following conversation as the happy path:
 ```
@@ -137,7 +139,7 @@ We could give an example of this like sentiment on reaction_intent.
 Utterances is sample data which define a sentence to be categorized to an intent and have entities and traits.
 This term will be used to train data, for example: 
 
-![pic utterance](/examples/utterance.png)
+![pic utterance](./examples/utterance.png)
 
 Now that we are understand, let’s train our Wit app to process the user’s response to the app.
 
@@ -187,7 +189,7 @@ Huhuhuhu   sentiment   negatif
 
 Get Your Seed Token
 
-![overview](/examples/seed_token.png)
+![overview](./examples/seed_token.png)
 
 In order to start using the Wit.ai API, we need to start with some identification. Make sure you have signed up for [Wit.ai](https://wit.ai) if you haven't already.
 
@@ -348,7 +350,7 @@ After we get https webhook url, and working Wit.API, we change our facebook app 
 
 Configure the webhook for your app
 
-![wit messenger](/examples/edit_callback_url.png)
+![wit messenger](./examples/edit_callback_url.png)
 
 1. In the 'Webhooks' section of the Messenger settings console, click the 'Setup Webhooks' button.
 2. In the 'Callback URL' field, enter the ngrok URL for your webhook. (example: https://3c37b05d146e.ngrok.io)
@@ -373,15 +375,98 @@ To try the Built-in NLP Page Inbox feature with your Messenger experience, do th
 
 Now, after you set your webhook and NLP, you could test your chatbot.
 
-<img src="/examples/neutral_positive.png" width="30%"><img src="/examples/negative.png" width="30%"><img src="/examples/p_negative.png" width="30%">
+<img src="./examples/neutral_positive.png" width="30%"><img src="./examples/negative.png" width="30%"><img src="./examples/p_negative.png" width="30%">
 
 ### Train covid_intent the Wit API
+We are going to create intents to define what the user's utterance for our wit.AI application will understand. On the dashboard click on intents, click **+Intents** to add a new intents.
+![alt text](./examples/create_intent.gif)
 
-When the `StreamRecordingRunnable` is finished recording and streaming the voice data, Wit will return the resolved intents and entities in the response. We will need to extract that information from the JSON and respond to the user appropriately.
+Next, we create training intents, entities and utterance which the user will likely do on the understanding menu. Add a utterance:
+    1. Make sure you are in **Train Your App** page by click **Understanding** on top right menu.
+    2. enter `jumlah covid di jakarta` into **Utterance** text box.
+    3. Label it your entitites into utterence by highlight `covid` and enter `covid_intents`, klik **Create Intents** as a entitites dan highlight again `jakarta` and choice `wit/location`.
+    4.  Submit your first utterance by click **Train and Validate**. Training will be start a few seconds  - you can check the status training on top right corner.
+![alt text](./examples/training.gif)
 
-```js
+To find out whether our training has been successful, you can try to re-enter words related to the training we are doing, namely Covid and Jakarta and make sure the confidence reaches above 90% to test the validity of our intentions.
 
 ```
+$ curl -XGET "https://api.wit.ai/utterances?v=$APPID&limit=10" -H "Authorization: Bearer $YOURTOKEN"
+```
+![alt text](./examples/get_api.png 'Create App')
+
+You may have heard that the most important part of machine learning is data training. At this step, we're only providing our Wit app with a single data point, so let's think about the natural variations the user might respond to and repeat steps # 4 through # 5.
+
+Ok, Allright now we understand about intents, entities, and utterance. Now We go to next step, how to input automatically your utterance with large data training. You can check this step:
+1. You can clone our github [See how to input Utterance](https://github.com/imamaris/covidcenter-bot/tree/covid-template/init-data)
+2. Now you can see file in [Dataset covid intent.tsv](https://github.com/imamaris/covidcenter-bot/tree/covid-template/init-data/datasets), that is file tsv dataset for training our apps. 
+3. Update the `covid_intent.tsv` and add
+```tsv
+covid meninggal   covid   0   5
+covid di Jaksel    location   9   15
+covid di Bogor    location   9   15
+rumah sakit rujukan   location   0   11
+gejala covid    covid   0   6
+covid di Bandung    location   9   16
+zona merah di Jakarta   covid   0   10
+total covid di Bandung    covid   0   5
+zona hijau di jakarta    covid   9   10
+```
+When the `StreamRecordingRunnable` is finished recording and streaming the text data, Wit will return the resolved intents and entities in the response. We will need to extract that information from the JSON and respond to the user appropriately.
+
+4. Next, we need [init data script](https://github.com/imamaris/covidcenter-bot/tree/init-data) for training your data. you can check this script:
+
+covid_intents.js
+```js
+const fs = require('fs');
+const fetch = require('node-fetch');
+const { validateUtterances } = require('../shared')
+
+const DOUBLETAB = '   ';
+const fileName = 'init-data/covid_intent.tsv'
+const intentName = 'covid_intents'
+const entityName = 'covid:covid'
+const data = fs
+  .readFileSync(fileName, 'utf-8')
+  .split('\r\n')
+  .map((row) => row.split(DOUBLETAB))
+
+const samples = data.map(([text, value, start, end]) => {
+  return {
+    text: text,
+    intent: intentName,
+    entities: [
+        {
+            entity: entityName,
+            start: start,
+            end: end,
+            body: value,
+            entities: [],
+        }
+    ],
+    traits: [],
+  }
+});
+
+validateUtterances(samples).then((res) => console.log(res))
+```
+you see, we have text, value, start, end and you can check again our covid_intent.tsv again. We explain for you:
+
+- **text** is an utterance of how the user is likely to chat on Facebook messenger. In our tsv file, contained in the first word is the utterance of the user. ex: "covid di Jaksel"
+
+- **value** is your entities, how our application will learn the word we highlighted and training it against the user utterance. In covid_intent.tsv you can see next word after the utterance. ex: "covid"
+
+- **start** is the starting index within the text your utterance data. You can see in covid_intent.tsv on third words column.
+
+- **end** is the ending index within the text your utterance data.
+
+Now you can try your bot on facebook messenger, repeat step [set your webhook and NLP ](#Set-your-webhook-and-NLP-------)from start to finish your setup messenger.
+
+Enjoy, and hack your bot !!! 🤖 📱 
+
+🏆🏆🏆
+
+<img src="./examples/test_covid.png" width="40%"><img src="./examples/test_messenger_covid.gif" width="40%">
 
 ### Add bot parser for NLP API
 
