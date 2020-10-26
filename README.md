@@ -5,9 +5,9 @@
 
 In this tutorial, we will be creating an API-based bot that give information covid to your account. The app will be able to process the user's text and respond to the user data about covid that they want. The key things we will explore is how to:
 
-*   [Design the user interaction and Architecture](https://github.com/imamaris/covidcenter-bot/blob/main/README.md#design-the-user-interaction)
-*   [Create and train a Wit app to do natural language processing (NLP)](https://github.com/imamaris/covidcenter-bot/blob/main/README.md#understand-terms-in-wit-app-to-do-natural-language-processing-nlp)
-*   [Integrate Wit with your Messenger Bot](https://github.com/imamaris/covidcenter-bot/blob/main/README.md#integrate-wit-with-your-messenger-bot)
+*   [Design the user interaction and Architecture](#design-the-user-interaction)
+*   [Create and train a Wit app to do natural language processing (NLP)](#understand-terms-in-wit-app-to-do-natural-language-processing-nlp)
+*   [Integrate Wit with your Messenger Bot](#integrate-wit-with-your-messenger-bot)
 
 ## Prerequisites
 
@@ -23,80 +23,38 @@ Ngrok is reverse proxy, it allow you deploy at local with random link.
 
 When designing applications with interactions, it's important to understand the various ways that a user may interact with your app. Some techniques that can help with modeling the conversation is writing a script or creating a flow diagram. For our covid app, let's write a script to outline it.
 
-Action Flow
 ![alt text](./examples/flow.png 'Cara Kerja Aplikasi')
 
 Let's consider the following conversation as the happy path:
 ```
-User: "Morning"/"Hi"
+User: "Selamat Pagi, Ini bot buat apa ya"
 
-Wit:  "Hi, welcome to the Wit.ai covid center demo. I'm Wit. Would you like newest covid information in your area ?"
+Wit:  "Maaf kak, cocid tidak mengerti :(. Jika ingin mengetahui info terbaru covid silahkan mengetik jumlah covid di kota kakak. contoh : jumlah covid di Jakarta"
 
-User: "Yes"
+User: "jumlah covid di Jakarta"
 
-Wit:  "Where is your domicile ?"
+Wit:  "jumlah covid di jakarta adalah 2 kasus, 1 konfirmasi, 1 meninggal.\n
+jika anda mengalami gejala berikut indra perasa hilang, Susah bernafas, demam tinggi, batuk kering, kelelahan
+segera lakukan pengecekkan lebih lanjut di rumah sakit rujukan dan setelah lakukan test, jika positif
+di sarankan untuk melakukan karantina mandiri selama 14 hari dirumah anda. \n\n berikut artikel cara isolasi mandiri
+yang baik dan benar : https://kumparan.com/kumparannews/cara-karantina-mandiri-protokol-corona-1tCEvhtt8LG
+berikut rumah sakit rujukan di jakarta :\n
+1. rumah sakit Umum Fatmawati (https://goo.gl/maps/GV6fZRxhEgg2PPjK7)\n
+2. rumah sakit Jakarta Medical Centre (https://goo.gl/maps/oPnpyw2edFJcg3ha7)\n
+3. rumah sakit Umum Andhika (https://g.page/rsuandhika?share)`?"
 
-User: "South Jakarta" / (send a location)
+User: "Alhamdulillah" / (send a location)
 
-Wit: "Today, we have 500 new cases. 100 recovered, 0 died. Please stay at home and please get your test if you have followings indication:
-1. Can't smell and taste
-2. Out of breathe
-3. etc
+Wit: "Mantap, kalau kamu merasa baik !! tetap social distancing yaaa :D"
 
-There is 3 nearest location that you can go for test:
-
-(giving 3 location)
-A Hospital
-B Drive Thru Check
-XYZ Hospital
-"
-
-User : "Sad"
-
-Wit : "I know this is hard, cheer up! maybe we soon could meet with our friends, please don't be discouraged"
-```
-
-Now let's think about scenarios were the user can deviate:
-```
-
-User: "Morning"/"Hi"
-
-Wit:  "Hi, welcome to the Wit.ai covid center demo. I'm Wit. Would you like newest covid information in your area ?"
-
-User: "I want pizza"
-
-Wit:  "Sorry, I didn't get that. Would you like newest covid information in your area ?""
-
-User: "Yeah"
-
-Wit:  "Where is your domicile ?"
-
-User: "South Jakarta" / (send a location)
-
-Wit: "Today, we have 0 new cases. 100 recovered, 0 died. Please stay at home and please get your test if you have followings indication:
-1. Can't smell and taste
-2. Out of breathe
-3. etc
-
-There is 3 nearest location that you can go for test:
-
-(giving 3 location)
-A Hospital 
-B Drive Thru Check
-XYZ Hospital
-" 
-
-User : "Nice"
-
-Wit : "Congratulation!! please don't be lulled by this achievement. Stay distancing, stay healthy"
 ```
 
 There are many other scenarios to consider as well, but for the tutorial let's just focus on these.
 
-## Understand Terms in Wit app to do natural language processing (NLP)
+## Understand Terms in Wit.AI
 
-Before we train our Wit app, we should learn about intent, entities, traits, and utterances.
-If you already learn those terms, you can go to [Next section](https://github.com/imamaris/covidcenter-bot/blob/master/README.md#training-your-wit-app-to-do-natural-language-processing-nlp)
+Before we train our Wit app, we should learn about intents, entities, traits, and utterances.
+If you already learn those terms, you can go to [Next section](#training-your-wit-app-to-do-natural-language-processing-nlp)
 
 Case Study:
 We want to understand what our end-user wants to perform. For example:
@@ -111,8 +69,8 @@ The problem is that there a millions of different ways to express a given intent
 "Give me tomorrow weather in Paris."
 "Is it sunny or rainy in Paris now?"
 
-Those expressions are asking about the weather intent. How about entities ? 
-Entities is object that referred in the intent of sentence.
+**Those expressions are** asking about the **weather intent**. How about entities ? 
+**Entities is object that referred in the intent of sentence**.
 
 "What is the weather in **Paris** ?"
 Paris is **city** where we ask about the weather for.
@@ -123,14 +81,14 @@ Tomorrow is **time** when we ask about the weather for.
 "Is it **sunny** or **rainy** in **Paris** **now**?"
 And **sunny** and **rainy** are options what we ask about he weather.
 
-The entities make machine understand what object that related with the intent.
+**The entities make machine understand what object that related with the intent**.
 example: "Give me **tomorrow** weather in **Paris**."
 
 Intent: Ask about the weather , Entities: City: Paris Time: Tomorrow
 Machine could query to the database in table weather(intent) with paris city and tomorrow queries (entities)
 
 So what is trait ?
-Trait is tendency of an intent.
+**Trait is tendency of an intent**.
 We could give an example of this like sentiment on reaction_intent.
 
 "Sad" (negative)
@@ -138,7 +96,7 @@ We could give an example of this like sentiment on reaction_intent.
 "I can't believe this. I'm crying" (negative)
 "Superb" (positive)
 
-Utterances is sample data which define a sentence to be categorized to an intent and have entities and traits.
+**Utterances is sample data which define a sentence to be categorized to an intent and have entities and traits**.
 This term will be used to train data, for example: 
 
 ![pic utterance](./examples/utterance.png)
@@ -147,16 +105,23 @@ Now that we are understand, let’s train our Wit app to process the user’s re
 
 ## Training your Wit app to do natural language processing (NLP)
 
-Wit AI has two method for training the NLP.
-The first is inserting utterances with web interface.
-The second one is inserting utterances with API.
+Wit AI has **two method for training the NLP**.
+The first is inserting utterances with **web interface**.
+The second one is inserting utterances with **API**.
 
 We would like to introduce to you all for two methods. But, because data is supossed to be large,
 we emphasize the API method more than Web Interface method in this tutorial.
 
 ### Wit AI Web Interface
 
+We are going to create intents to define what the user's utterance for our wit.AI application will understand. On the dashboard click on intents, click **+Intents** to add a new intents.
+
+<p align="center">
+<img src="./examples/create_intent_sentiment.gif">
+</p>
+
 How to produce sentiment
+
 1. Select Understanding from the left nav and add a sentence you want to do sentiment analysis on.
 ```
 This is amazing!
@@ -168,9 +133,13 @@ This is amazing!
 6. In the values section, add more values such as "negative" and "neutral".
 7. Annotate a few more examples to get more accurate results!
 
+<p align="center">
+<img src="./examples/create_sentiment.gif">
+</p>
+
 Update: for English apps, you can use our wit/sentiment built-in! It should already appear in your traits dropdown when you click Add Trait.
 
-Your "sentiment" is a trait, which means that it depends on the utterance as a whole (as opposed to a particular word or sequence of words appearing in the sentence). If it is inferred from a keyword or a specific phrase, use an entity instead. Your "sentiment" trait is trained by and for you. The good news is, it will be completely customized to your case. The bad news is, you need to provide several examples for each value :).
+Your **"sentiment"** is a trait, which means that it depends on the utterance as a whole (as opposed to a particular word or sequence of words appearing in the sentence). If it is inferred from a keyword or a specific phrase, use an entity instead. Your "sentiment" trait is trained by and for you. The good news is, it will be completely **customized to your case**. The bad news is, you need to provide several examples for each value :).
 
 For more information on this, see the [Quick Start](https://wit.ai/docs/quickstart) guide.
 
@@ -180,7 +149,7 @@ Before we implement, we should read [Wit.AI API Documentation](https://wit.ai/do
 
 After we understand the API, open the [Wit.ai Covid Center init data script](https://github.com/imamaris/covidcenter-bot/tree/init-data)
 
-Update the `sentiment.tsv` and add
+Update the `init-data/sentiment.tsv` and add
 ```tsv
 Alhamdulillah    sentiment   positif
 Kabar buruk   sentiment   negatif
@@ -202,14 +171,15 @@ Once you have:
 
 This will be the base token we will use to create other apps. In the code this will be under the variable `NEW_ACCESS_TOKEN`.
 
-Next update `NEW_ACCESS_TOKEN` and `APP_ID` in ../shared.js variable to run the  as follows:
+Next update `NEW_ACCESS_TOKEN` and `APP_ID` in `shared.js` variable to run the  as follows:
+
 ```js
 const NEW_ACCESS_TOKEN = '' // TODO: fill this in 
 const APP_ID = ''; // TODO: fill this in
 ```
 
 The script is reading data from tsv and hit [Utterances API](https://wit.ai/docs/http/20200513/#post__utterances_link).
-In this script, we use doubletab to enable data with tab and node fetch to hit api.
+In this script, we use doubletab to enable data with tab and `node fetch` to hit api.
 We could change utterances constractor and the map for another needs if we want to train another data.
 
 ```js
@@ -279,7 +249,7 @@ Run the file with:
 
 ## Integrate Wit with your Messenger Bot
 
-When you download the Tutorial from the [base setup branch](https://github.com/imamaris/covidcenter-bot/tree/base-setup), the app will be capable of doing text and answer with sentiment intent. In this part, we will add how retrieve covid 
+When you download the Tutorial from the [init data branch](https://github.com/imamaris/covidcenter-bot/tree/init-data), the app will be capable of doing text and answer with sentiment intent. In this part, we will add how retrieve covid 
 
 Before you begin, you will need to create a few things. Please ensure you have all of the following:
 - Facebook Page: A Facebook Page will be used as the identity of your Messenger experience. When people chat with your app, they will see the Page name and the Page profile picture. To create a new Page, visit https://www.facebook.com/pages/create
@@ -296,27 +266,29 @@ The Messenger Platform will be added to your app, and the Messenger settings con
 
 ### Add an webhook to your Messenger bot
 
-Open the [Wit.ai Covid Center bot demo](https://github.com/imamaris/covidcenter-bot/tree/bot/index.js) int and run
+Open the [Wit.ai Covid Center bot demo](https://github.com/imamaris/covidcenter-bot/blob/init-data/bot/index.js) int and run
 
 Get `ACCESS_TOKEN` and `VERIFY_TOKEN` from Your App. See [Webhook Setup](https://developers.facebook.com/docs/messenger-platform/getting-started/webhook-setup/) for further reference.
 
 Next update `ACCESS_TOKEN` and `VERIFY_TOKEN` variable to get webhook as follows:
+
 ```js
 const ACCESS_TOKEN = '' // line 11
 let VERIFY_TOKEN = '' // line 74
 ```
 
-If you want make the code from scratch, you could read [webhook tutorial](https://developers.facebook.com/docs/messenger-platform/getting-started/webhook-setup/)
-
 ### Test your webhook
 
 Now that you have all the code in place for a basic webhook, it is time to test it by sending a couple sample requests to your webhook running on localhost.
+
 1. Run the following on the command line to start your webhook on localhost:
+
 ```sh
 node bot/index.js
 ```
 
 2. From a separate command line prompt, test your webhook verification by substituting your verify token into this cURL request:
+
 ```sh
 curl -X GET "localhost:1337/webhook?hub.verify_token=<YOUR_VERIFY_TOKEN>&hub.challenge=CHALLENGE_ACCEPTED&hub.mode=subscribe"
 ```
@@ -335,6 +307,10 @@ If your webhook is working as expected, you should see the following:
 - `EVENT RECEIVED` logged to the command line where you sent the cURL request.
 
 ### Deploy your webhook
+
+[Ngrok](https://ngrok.com) is reverse proxy, it allow you deploy at local with random link.
+
+Download & Install Ngrok | [Link](https://ngrok.com/download)
 
 Run ngrok:
 
@@ -373,20 +349,21 @@ To try the Built-in NLP Page Inbox feature with your Messenger experience, do th
 5. Choose your app
 6. Insert your Wit Server Access Token [See how to get Wit Access Token](https://github.com/imamaris/covidcenter-bot/blob/master/README.md#wit-ai-api)
 
-### Test your chatbot
+### Try your deployed chatbot
 
-Now, after you set your webhook and NLP, you could test your chatbot.
+Now, after you set your webhook and NLP, you could try your chatbot.
 
 <img src="./examples/neutral_positive.png" width="30%"><img src="./examples/negative.png" width="30%"><img src="./examples/p_negative.png" width="30%">
 
 ### Train covid_intent the Wit API
-We are going to create intents to define what the user's utterance for our wit.AI application will understand. On the dashboard click on intents, click **+Intents** to add a new intents.
+
+We are going to create intents to define what the user's utterances for our wit.AI application will understand. On the dashboard click on intents, click **+Intents** to add a new intents.
 
 <p align="center">
 <img src="./examples/create_intent.gif">
 </p>
 
-Next, we create training intents, entities and utterance which the user will likely do on the understanding menu. Add a utterance:
+Next, we create training intents, entities and utterances which the user will likely do on the understanding menu. Add a utterance:
 
 1. Make sure you are in **Train Your App** page by click **Understanding** on top right menu.
 2. enter `jumlah covid di jakarta` into **Utterance** text box.
@@ -399,36 +376,38 @@ Next, we create training intents, entities and utterance which the user will lik
 
 To find out whether our training has been successful, you can try to re-enter words related to the training we are doing, namely Covid and Jakarta and make sure the confidence reaches above 90% to test the validity of our intentions.
 
+<p align="center">
+<img src="./examples/test_validitas.PNG">
+</p>
+
 ```
 $ curl -XGET "https://api.wit.ai/utterances?v=$APPID&limit=10" -H "Authorization: Bearer $YOURTOKEN"
 ```
 
 <p align="center">
-<img src="/examples/get_api.PNG">
+<img src="./examples/get_api.PNG">
 </p>
 
 You may have heard that the most important part of machine learning is data training. At this step, we're only providing our Wit app with a single data point, so let's think about the natural variations the user might respond to and repeat steps # 4 through # 5.
 
-Ok, Allright now we understand about intents, entities, and utterance. Now We go to next step, how to input automatically your utterance with large data training. You can check this step:
+Now We go to the next step: how to input automatically your utterances with large data training. You can check this step:
+
 1. You can clone our github [See how to input Utterance](https://github.com/imamaris/covidcenter-bot/tree/covid-template/init-data)
 2. Now you can see file in [Dataset covid intent.tsv](https://github.com/imamaris/covidcenter-bot/tree/covid-template/init-data/datasets), that is file tsv dataset for training our apps. 
-3. Update the `covid_intent.tsv` and add
+3. Update and add your own data
+for example, you can see the `init-data/datasets/covid_intent.tsv`
+
+your_covid_intent.tsv
 ```tsv
-covid meninggal   covid   0   5
-covid di Jaksel    location   9   15
-covid di Bogor    location   9   15
-rumah sakit rujukan   location   0   11
+rumah sakit rujukan di Bogor   location   23   27
 gejala covid    covid   0   6
-covid di Bandung    location   9   16
-zona merah di Jakarta   covid   0   10
-total covid di Bandung    covid   0   5
-zona hijau di jakarta    covid   9   10
 ```
-When the `StreamRecordingRunnable` is finished recording and streaming the text data, Wit will return the resolved intents and entities in the response. We will need to extract that information from the JSON and respond to the user appropriately.
 
-4. Next, we need [init data script](https://github.com/imamaris/covidcenter-bot/tree/init-data) for training your data. you can check this script:
 
-covid_intents.js
+4. Next, we need [init data script](https://github.com/imamaris/covidcenter-bot/tree/covid-template/init-data) for training your data. you can check this script:
+
+init-data/covid_intents.js
+
 ```js
 const fs = require('fs');
 const fetch = require('node-fetch');
@@ -462,15 +441,15 @@ const samples = data.map(([text, value, start, end]) => {
 
 validateUtterances(samples).then((res) => console.log(res))
 ```
-you see, we have text, value, start, end and you can check again our covid_intent.tsv again. We explain for you:
+we have **text, value, start, and end** that we can check again from our covid_intent.tsv. we can see these terms explanation below:
 
-- **text** is an utterance of how the user is likely to chat on Facebook messenger. In our tsv file, contained in the first word is the utterance of the user. ex: "covid di Jaksel"
+- **text** is an utterance how the user is likely to chat on Facebook messenger. In our tsv file, the first word of row is the utterance of user messages. ex: "covid di Jaksel"
 
-- **value** is your entities, how our application will learn the word we highlighted and training it against the user utterance. In covid_intent.tsv you can see next word after the utterance. ex: "covid"
+- **value** is an entity how our application will learn the word that we highlighted. we are training it within the utterance. In covid_intent.tsv, the second word of row is entity. ex: "covid"
 
-- **start** is the starting index within the text your utterance data. You can see in covid_intent.tsv on third words column.
+- **start** is the starting index highlighted entity within the text. We can see on third column.
 
-- **end** is the ending index within the text your utterance data.
+- **end** is the ending index highlighted entity within the text. We can see on last column.
 
 ### Add bot parser for NLP API
 
@@ -483,10 +462,12 @@ We have covid_intents which have two entities.
 In order to give covid result based on area, the intent should fulfill both entities.
 If one of them is not exist, we must asking user for the missing items.
 
-But, in order to make this bot simpler, we avoid Finite State Machine.
-We give response how user should send text to bot.
+But, in order to make this bot simpler, we avoid [Finite State Machine](https://en.wikipedia.org/wiki/Finite-state_machine).
+So we give response how user should send text to bot.
 
-Therefore, this is code you must add to your base setup.
+Therefore, this is code you must add to `bot/index.js` in your branch [covid template](https://github.com/imamaris/covidcenter-bot/tree/covid-template/).
+
+bot/index.js
 
 ```js
 
@@ -556,7 +537,7 @@ and change the function `getSentimentResponse` to `getMessageFromNlp` on post we
 - text: getSentimentResponse(message.nlp.traits.sentiment),
 + text: getMessageFromNlp(message.nlp),
 ```
-Now you can try your bot on facebook messenger, repeat step [set your webhook and NLP ](#Set-your-webhook-and-NLP-------)from start to finish your setup messenger.
+Now you can try your bot on facebook messenger, repeat step [Deploy your webhook ](#deploy-your-webhook)from start to finish your setup messenger.
 
 Enjoy, and hack your bot !!! 🤖 📱 
 
@@ -575,8 +556,8 @@ As you are testing the app, you might notice that certain utterances are not res
 For demonstration purposes, we’ve created a very simple covid bot, but you can create a much more engaging and interactive bot. Try sketching out a larger conversation flow with various scenarios and see Wit [documentation](https://wit.ai/docs) to learn more about other Wit features e.g. other built-in entities, custom entities, and traits.
 
 If you want to add features, we have recommendation feature to add:
-1. Finite State Machine.
-2. Integrate Covid API.
+1. Finite State Machine [link](https://en.wikipedia.org/wiki/Finite-state_machine).
+2. Integrate with [Covid API](https://github.com/mathdroid/indonesia-covid-19-api).
 3. More data to train.
 4. Use time entities.
 
@@ -593,4 +574,4 @@ We look forward to what you will develop! To stay connected, join the [Wit Hacke
 Just make issue and PR if you want to contribute. we will review your PR.
 
 ## License
-Wit.ai Android Voice Demo is licensed, as found in the [LICENSE](LICENSE) file.
+Wit.ai Covid Center Bot is licensed, as found in the [LICENSE](LICENSE) file.
