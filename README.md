@@ -246,7 +246,7 @@ Huhuhuuhuuuuu   sentiment   negatif
 
 Run the file with:
 ```sh
-  node init-data/test.js
+  npm test
 ```
 
 ## Integrate Wit with your Messenger Bot
