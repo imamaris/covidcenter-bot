@@ -249,6 +249,8 @@ Run the file with:
   npm test
 ```
 
+![test results](./examples/test.png)
+
 ## Integrate Wit with your Messenger Bot
 
 When you download the Tutorial from the [init data branch](https://github.com/imamaris/covidcenter-bot/tree/init-data), the app will be capable of doing text and answer with sentiment intent. In this part, we will add how retrieve covid 
