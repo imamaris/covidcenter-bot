@@ -6,7 +6,8 @@
 In this tutorial, we will be creating an API-based bot that give information covid to your account. The app will be able to process the user's text and respond to the user data about covid that they want. The key things we will explore is how to:
 
 *   [Design the user interaction and Architecture](#design-the-user-interaction)
-*   [Create and train a Wit app to do natural language processing (NLP)](#understand-terms-in-wit-app-to-do-natural-language-processing-nlp)
+*   [Understand Terms in Wit.AI](#understand-terms-in-Wit.AI)
+*   [Create and Training your Wit app to do natural language processing (NLP)](#create-and-training-your-wit-app-to-do-natural-language-processing-(NLP))
 *   [Integrate Wit with your Messenger Bot](#integrate-wit-with-your-messenger-bot)
 
 ## Prerequisites
@@ -23,29 +24,30 @@ Ngrok is reverse proxy, it allow you deploy at local with random link.
 
 When designing applications with interactions, it's important to understand the various ways that a user may interact with your app. Some techniques that can help with modeling the conversation is writing a script or creating a flow diagram. For our covid app, let's write a script to outline it.
 
-![alt text](./examples/flow.png 'Cara Kerja Aplikasi')
+![alt text](./examples/flow_new.png 'Cara Kerja Aplikasi')
 
 Let's consider the following conversation as the happy path:
 ```
-User: "Selamat Pagi, Ini bot buat apa ya"
+User: "Good morning, what is this bot for?"
 
-Wit:  "Maaf kak, cocid tidak mengerti :(. Jika ingin mengetahui info terbaru covid silahkan mengetik jumlah covid di kota kakak. contoh : jumlah covid di Jakarta"
+Wit:  "Sorry, Cocid doesn't understand :(. If you want to know the latest covid info, please type "total covid in your city". Example: total covid in Jakarta"
 
-User: "jumlah covid di Jakarta"
+User: "Total covid in Jakarta"
 
-Wit:  "jumlah covid di jakarta adalah 2 kasus, 1 konfirmasi, 1 meninggal.\n
-jika anda mengalami gejala berikut indra perasa hilang, Susah bernafas, demam tinggi, batuk kering, kelelahan
-segera lakukan pengecekkan lebih lanjut di rumah sakit rujukan dan setelah lakukan test, jika positif
-di sarankan untuk melakukan karantina mandiri selama 14 hari dirumah anda. \n\n berikut artikel cara isolasi mandiri
-yang baik dan benar : https://kumparan.com/kumparannews/cara-karantina-mandiri-protokol-corona-1tCEvhtt8LG
-berikut rumah sakit rujukan di jakarta :\n
+Wit:  "total covid in jakarta is 2 case, 1 confirmed, 1 passed.\n
+If you experience the following symptoms, your sense of taste disappears, difficulty breathing, high fever, dry cough, fatigue, immediately do further checks at the referral hospital and after doing the test, if positive it is recommended to do self-quarantine for 14 days at your home. \n\n the following article on how to self quarantine
+good and true according to WHO (World Heart Organization) :
+
+https://www.who.int/indonesia/news/novel-coronavirus/new-infographics/self-quarantine
+
+This is referral hospitals in Jakarta :\n
 1. rumah sakit Umum Fatmawati (https://goo.gl/maps/GV6fZRxhEgg2PPjK7)\n
 2. rumah sakit Jakarta Medical Centre (https://goo.gl/maps/oPnpyw2edFJcg3ha7)\n
 3. rumah sakit Umum Andhika (https://g.page/rsuandhika?share)`?"
 
 User: "Alhamdulillah" / (send a location)
 
-Wit: "Mantap, kalau kamu merasa baik !! tetap social distancing yaaa :D"
+Wit: "Great, if you feel good !! keep physical distancing yaaa :D"
 
 ```
 
@@ -103,7 +105,7 @@ This term will be used to train data, for example:
 
 Now that we are understand, let’s train our Wit app to process the user’s response to the app.
 
-## Training your Wit app to do natural language processing (NLP)
+## Create and Training your Wit app to do natural language processing (NLP)
 
 Wit AI has **two method for training the NLP**.
 The first is inserting utterances with **web interface**.
