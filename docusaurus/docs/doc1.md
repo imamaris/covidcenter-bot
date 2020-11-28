@@ -3,6 +3,8 @@
   <img src="./assets/test_messenger_covid.gif" width="40%">
 </p>
 
+If you want to see docusaurus version, you could visit https://covidcenter.github.io/docs/
+
 In this tutorial, we will be creating an API-based bot that give information covid to your account. The app will be able to process the user's text and respond to the user data about covid that they want. The key things we will explore is how to:
 
 *   [Design the user interaction and Architecture](#design-the-user-interaction)
@@ -34,7 +36,7 @@ Wit:  "Sorry, Cocid doesn't understand :(. If you want to know the latest covid 
 
 User: "Total covid in Jakarta"
 
-Wit:  "total covid in jakarta is 2 case, 1 confirmed, 1 passed.\n
+Wit:  "total covid in jakarta is 10 case, 1 confirmed, 9 deaths.\n
 If you experience the following symptoms, your sense of taste disappears, difficulty breathing, high fever, dry cough, fatigue, immediately do further checks at the referral hospital and after doing the test, if positive it is recommended to do self-quarantine for 14 days at your home. \n\n the following article on how to self quarantine
 good and true according to WHO (World Heart Organization) :
 
@@ -101,7 +103,7 @@ We could give an example of this like sentiment on reaction_intent.
 **Utterances is sample data which define a sentence to be categorized to an intent and have entities and traits**.
 This term will be used to train data, for example: 
 
-![pic utterance](./assets/utterance.png)
+![pic utterance](./assets/utterance_new.png)
 
 Now that we are understand, let’s train our Wit app to process the user’s response to the app.
 
@@ -153,11 +155,11 @@ After we understand the API, open the [Wit.ai Covid Center init data script](htt
 
 Update the `init-data/sentiment.tsv` and add
 ```tsv
-Alhamdulillah    sentiment   positif
-Kabar buruk   sentiment   negatif
-Tidak menyenangkan   sentiment   negatif
-Sedih akutu   sentiment   negatif
-Huhuhuhu   sentiment   negatif
+Alhamdulillah    sentiment   positive
+Bad News   sentiment   negative
+Not Good   sentiment   negative
+I am so sad   sentiment   negative
+Huhuhuhu   sentiment   negative
 ```
 
 Get Your Seed Token
@@ -170,6 +172,8 @@ Once you have:
 
 1. Go to the `Settings` page of the [Wit console](https://wit.ai/home)
 2. Copy the `Server Access Token`
+
+![overview](./assets/wit_setting.png)
 
 This will be the base token we will use to create other apps. In the code this will be under the variable `NEW_ACCESS_TOKEN`.
 
@@ -237,11 +241,11 @@ Open the [Wit.ai Covid Center init data script](https://github.com/imamaris/covi
 
 Update the `test.tsv` and add
 ```tsv
-Alhamdulillah, banyak yg sembuh    sentiment   positif
-Kabar jelek   sentiment   negatif
-Tidak senang   sentiment   negatif
-Sedih bgt akutu   sentiment   negatif
-Huhuhuuhuuuuu   sentiment   negatif
+Alhamdulillah, many cases recovered    sentiment   positive
+Bad news   sentiment   negative
+I am not happy   sentiment   negative
+I am so sad   sentiment   negative
+Huhuhuuhuuuuu   sentiment   negative
 ```
 
 Run the file with:
@@ -257,6 +261,10 @@ When you download the Tutorial from the [init data branch](https://github.com/im
 
 Before you begin, you will need to create a few things. Please ensure you have all of the following:
 - Facebook Page: A Facebook Page will be used as the identity of your Messenger experience. When people chat with your app, they will see the Page name and the Page profile picture. To create a new Page, visit https://www.facebook.com/pages/create
+
+![facebook page](./assets/facebook_page.png)
+
+
 - Facebook Developer Account: Your developer account is required to create new apps, which are the core of any Facebook integration. You can create a new developer account by going to the Facebook Developers website and clicking the 'Get Started' button.
 - Facebook App: The Facebook app contains the settings for your Messenger experience, including access tokens. To create a new app, visit your [app dashboard](https://developers.facebook.com/apps).
 
@@ -267,6 +275,8 @@ Add the Messenger Platform to your Facebook app
 2. Hover over 'Messenger' to display options.
 3. Click the 'Set Up' button.
 The Messenger Platform will be added to your app, and the Messenger settings console will be displayed.
+
+![facebook page](./assets/setting_messenger.png)
 
 ### Add an webhook to your Messenger bot
 
@@ -322,7 +332,7 @@ Run ngrok:
 ngrok http 1337
 ```
 
-![ngrok](./assets/ngrok.png)
+![ngrok](/assets/ngrok.png)
 
 We could access your API from this example is : https://3c37b05d146e.ngrok.io (this is random url from ngrok, you will generate another link)
 
@@ -375,13 +385,13 @@ Next, we create training intents, entities and utterances which the user will li
 4.  Submit your first utterance by click **Train and Validate**. Training will be start a few seconds  - you can check the status training on top right corner.
 
 <p align="center">
-<img src="./assets/training.gif">
+<img src="./assets/training_new.gif">
 </p>
 
 To find out whether our training has been successful, you can try to re-enter words related to the training we are doing, namely Covid and Jakarta and make sure the confidence reaches above 90% to test the validity of our intentions.
 
 <p align="center">
-<img src="./assets/test_validitas.PNG">
+<img src="./assets/test_validitas_new.PNG">
 </p>
 
 ```
@@ -475,7 +485,7 @@ bot/index.js
 ```js
 
 // default response
-const DEFAULT_RESPONSE = 'Maaf kak, cocid tidak mengerti :(. Jika ingin mengetahui info terbaru covid silahkan mengetik jumlah covid di kota kakak. contoh : jumlah covid di Jakarta'
+const DEFAULT_RESPONSE = 'Sorry, cocid doesnt understand :(. If you want to know the latest covid info, please type "total covid in your city". Example: total covid in Jakarta'
 
 function getMessageFromNlp(nlp) {
   // intents checker
@@ -512,18 +522,16 @@ function getCovidResponse(entities) {
     // covid response when covid and city is available.
     var totalCase = getRandomNumber(1,100)
     var confirmCase = getRandomNumber(1, totalCase)
-    return `jumlah covid di ${city} adalah ${totalCase} kasus, ${confirmCase} konfirmasi, ${totalCase - confirmCase} meninggal.\n
-jika anda mengalami gejala berikut indra perasa hilang, Susah bernafas, demam tinggi, batuk kering, kelelahan
-segera lakukan pengecekkan lebih lanjut di rumah sakit rujukan dan setelah lakukan test, jika positif
-di sarankan untuk melakukan karantina mandiri selama 14 hari dirumah anda. \n\n berikut artikel cara isolasi mandiri
-yang baik dan benar : https://kumparan.com/kumparannews/cara-karantina-mandiri-protokol-corona-1tCEvhtt8LG
-berikut rumah sakit rujukan di ${city}:\n
+    return `total covid in ${city} is ${totalCase} cases, ${confirmCase} confirmed, ${totalCase - confirmCase} deaths.\n
+    if you experience the following symptoms, your sense of taste disappears, difficulty breathing, high fever, dry cough, fatigue, immediately do further checks at the referral hospital and after doing the test, if positive it is recommended to do self-quarantine for 14 days at your home. \n\n the following article on how to self quarantine
+    good and true according to WHO (World Heart Organization) : https://www.who.int/indonesia/news/novel-coronavirus/new-infographics/self-quarantine
+    This is referral hospitals in ${city}:\n
 1. rumah sakit Umum Fatmawati (https://goo.gl/maps/GV6fZRxhEgg2PPjK7)\n
 2. rumah sakit Jakarta Medical Centre (https://goo.gl/maps/oPnpyw2edFJcg3ha7)\n
 3. rumah sakit Umum Andhika (https://g.page/rsuandhika?share)`
   } else if (isCovid) {
     // response when location is not provided (ask the location and give how they should give message)
-    return 'Maaf kak, cocid ingin tahu covid di daerah apa ya kak? sebagai contoh kakak bisa mengetik kembali jumlah covid di kota kakak'
+    return 'Sorry, Cocid wants to know what area is Covid? for example, you can retype the number of covid in your city'
   }
 
   return DEFAULT_RESPONSE;
