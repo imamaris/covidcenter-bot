@@ -34,7 +34,7 @@ Wit:  "Sorry, Cocid doesn't understand :(. If you want to know the latest covid 
 
 User: "Total covid in Jakarta"
 
-Wit:  "total covid in jakarta is 2 case, 1 confirmed, 1 passed.\n
+Wit:  "total covid in jakarta is 10 case, 1 confirmed, 9 deaths.\n
 If you experience the following symptoms, your sense of taste disappears, difficulty breathing, high fever, dry cough, fatigue, immediately do further checks at the referral hospital and after doing the test, if positive it is recommended to do self-quarantine for 14 days at your home. \n\n the following article on how to self quarantine
 good and true according to WHO (World Heart Organization) :
 
@@ -246,8 +246,10 @@ Huhuhuuhuuuuu   sentiment   negatif
 
 Run the file with:
 ```sh
-  node init-data/test.js
+  npm test
 ```
+
+![test results](./examples/test.png)
 
 ## Integrate Wit with your Messenger Bot
 

@@ -10,7 +10,7 @@ const { queryGraph } = require('../shared')
 const ACCESS_TOKEN =
   ''
 
-const DEFAULT_RESPONSE = 'Maaf kak, cocid tidak mengerti :(. Jika ingin mengetahui info terbaru covid silahkan mengetik jumlah covid di kota kakak. contoh : jumlah covid di Jakarta'
+const DEFAULT_RESPONSE = 'Sorry, cocid doesnt understand :(. If you want to know the latest covid info, please type "total covid in your city". Example: total covid in Jakarta'
 
 // Sets server port and logs message on success
 app.listen(process.env.PORT || 1337, () => console.log('webhook is listening'))
@@ -85,17 +85,15 @@ function getCovidResponse(entities) {
   if (isCovid && city != '') {
     var totalCase = getRandomNumber(1,100)
     var confirmCase = getRandomNumber(1, totalCase)
-    return `jumlah covid di ${city} adalah ${totalCase} kasus, ${confirmCase} konfirmasi, ${totalCase - confirmCase} meninggal.\n
-jika anda mengalami gejala berikut indra perasa hilang, Susah bernafas, demam tinggi, batuk kering, kelelahan
-segera lakukan pengecekkan lebih lanjut di rumah sakit rujukan dan setelah lakukan test, jika positif
-di sarankan untuk melakukan karantina mandiri selama 14 hari dirumah anda. \n\n berikut artikel cara isolasi mandiri
-yang baik dan benar : https://kumparan.com/kumparannews/cara-karantina-mandiri-protokol-corona-1tCEvhtt8LG
-berikut rumah sakit rujukan di ${city}:\n
+    return `total covid in ${city} is ${totalCase} cases, ${confirmCase} confirmed, ${totalCase - confirmCase} deaths.\n
+    if you experience the following symptoms, your sense of taste disappears, difficulty breathing, high fever, dry cough, fatigue, immediately do further checks at the referral hospital and after doing the test, if positive it is recommended to do self-quarantine for 14 days at your home. \n\n the following article on how to self quarantine
+    good and true according to WHO (World Heart Organization) : https://www.who.int/indonesia/news/novel-coronavirus/new-infographics/self-quarantine
+    This is referral hospitals in ${city}:\n
 1. rumah sakit Umum Fatmawati (https://goo.gl/maps/GV6fZRxhEgg2PPjK7)\n
 2. rumah sakit Jakarta Medical Centre (https://goo.gl/maps/oPnpyw2edFJcg3ha7)\n
 3. rumah sakit Umum Andhika (https://g.page/rsuandhika?share)`
   } else if (isCovid) {
-    return 'Maaf kak, cocid ingin tahu covid di daerah apa ya kak? sebagai contoh kakak bisa mengetik kembali jumlah covid di kota kakak'
+    return 'Sorry, Cocid wants to know what area is Covid? for example, you can retype the number of covid in your city'
   }
 
   return DEFAULT_RESPONSE;
@@ -107,15 +105,15 @@ function getRandomNumber(start, end) {
 
 function getSentimentResponse(sentiment) {
   if (sentiment === undefined ) {
-    return 'Ada yang Coce bisa bantu ?'
+    return 'Is there anything cocid can help?'
   }
 
   console.log(sentiment[0].value);
   if (sentiment[0].value === 'positif') {
-    return 'Mantap, kalau kamu merasa baik !! tetap social distancing yaaa :D '
+    return 'Great, if you feel good !! keep physical distancing yaaa :D '
   }
 
-  return 'Semangat :( Aku tahu ini berat, tapi tetap social distancing yaa, demi kebaikan bersama sayangku <3 '
+  return 'Ganbatte :( I know its hard, but keep physical distancing, for the good with my dear <3 '
 }
 
 // Adds support for GET requests to our webhook
