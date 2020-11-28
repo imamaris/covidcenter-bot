@@ -1,0 +1,8 @@
+{
+  "docs": {
+    "Covid Bot Tutorial": ["doc1"]
+  },
+  "docs-other": {
+    "First Category": ["doc4", "doc5"]
+  }
+}
