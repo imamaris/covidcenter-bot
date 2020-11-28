@@ -49,10 +49,46 @@ function queryGraph(json, access_token) {
   ).then((res) => res.json())
 }
 
+queryCovidAPI = async (location) => {
+  // fetch from API
+  resp = await fetch(`https://indonesia-covid-19-api.now.sh/api/provinsi`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+
+  //init data
+  var data = await resp.json()
+  var totalNumber=0;
+  var newCaseNumber=0;
+  var revivedNumber=0;
+
+  location = location.toLowerCase()
+
+  // must include intended location
+  if (JSON.stringify(data).toLowerCase().includes(location)) {
+    // iterate locations
+    for (k in data['data']) {
+      var provinsi = data['data'][k]
+
+      // search location
+      if (provinsi['provinsi'].toLowerCase() == location) {
+        totalNumber = provinsi['kasusPosi'];
+        newCaseNumber = provinsi['kasusPosi'] - provinsi['kasusSemb'];
+        revivedNumber = provinsi['kasusSemb'];
+        break;
+      }
+    }
+  }
+  return [totalNumber, newCaseNumber, revivedNumber];
+}
+
 module.exports = {
   queryWit,
   validateUtterances,
   queryGraph,
+  queryCovidAPI,
   NEW_ACCESS_TOKEN,
   FIREBASE_CONFIG,
 }

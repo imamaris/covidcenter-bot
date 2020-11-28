@@ -5,7 +5,10 @@ const express = require('express'),
   bodyParser = require('body-parser'),
   app = express().use(bodyParser.json()) // creates express http server
 
-const { queryGraph } = require('../shared')
+const {
+  queryGraph,
+  queryCovidAPI
+} = require('../shared')
 
 const ACCESS_TOKEN =
   ''
@@ -34,15 +37,17 @@ app.post('/webhook', (req, res) => {
       let webhook_event = entry.messaging[0];
       let message = webhook_event.message;
       if (message != null && message.nlp != null) {
-        var messageReply = {
-          recipient: {
-            id: webhook_event.sender.id,
-          },
-          message: {
-            text: getMessageFromNlp(message.nlp),
-          },
-        }
-        queryGraph(messageReply, ACCESS_TOKEN)
+         getMessageFromNlp(message.nlp).then((res) => {
+          var messageReply = {
+            recipient: {
+              id: webhook_event.sender.id,
+            },
+            message: {
+              text: res,
+            },
+          }
+          queryGraph(messageReply, ACCESS_TOKEN)
+        })
       }
     });
 
@@ -55,21 +60,21 @@ app.post('/webhook', (req, res) => {
 
 });
 
-function getMessageFromNlp(nlp) {
+async function getMessageFromNlp(nlp) {
   if (nlp.intents.length == 0) {
     return DEFAULT_RESPONSE
   }
   switch (nlp.intents[0].name) {
     case 'covid_intents':
-      return getCovidResponse(nlp.entities)
+      return await getCovidResponse(nlp.entities)
     case 'sentiment_intent':
-      return getSentimentResponse(nlp.traits.sentiment)
+      return await getSentimentResponse(nlp.traits.sentiment)
     default:
       return DEFAULT_RESPONSE
   }
 }
 
-function getCovidResponse(entities) {
+async function getCovidResponse(entities) {
   console.log(entities["covid:covid"]);
   var city = ''
   var isCovid = false
@@ -83,12 +88,14 @@ function getCovidResponse(entities) {
   })
 
   if (isCovid && city != '') {
-    var totalCase = getRandomNumber(1,100)
-    var confirmCase = getRandomNumber(1, totalCase)
-    return `total covid in ${city} is ${totalCase} cases, ${confirmCase} confirmed, ${totalCase - confirmCase} deaths.\n
+    var res = await getCases(city.toLowerCase())
+    var totalCase = res[0]
+    var newCase  = res[1]
+    var confirmCase = res[2]
+    return `We have new ${newCase} cases. Total covid cases in ${city} is ${totalCase} cases, ${confirmCase} confirmed, ${totalCase - confirmCase} deaths.\n
     if you experience the following symptoms, your sense of taste disappears, difficulty breathing, high fever, dry cough, fatigue, immediately do further checks at the referral hospital and after doing the test, if positive it is recommended to do self-quarantine for 14 days at your home. \n\n the following article on how to self quarantine
     good and true according to WHO (World Heart Organization) : https://www.who.int/indonesia/news/novel-coronavirus/new-infographics/self-quarantine
-    This is referral hospitals in ${city}:\n
+    These are our referral hospitals in ${city}:\n
 1. rumah sakit Umum Fatmawati (https://goo.gl/maps/GV6fZRxhEgg2PPjK7)\n
 2. rumah sakit Jakarta Medical Centre (https://goo.gl/maps/oPnpyw2edFJcg3ha7)\n
 3. rumah sakit Umum Andhika (https://g.page/rsuandhika?share)`
@@ -99,8 +106,34 @@ function getCovidResponse(entities) {
   return DEFAULT_RESPONSE;
 }
 
+// function to hit API for get total cases and confirm cases
+async function getCases(city) {
+  // initial number with random
+  var totalCase = getRandomNumber(1, 100)
+  var newCase = getRandomNumber(1, 10)
+  var confirmCase = getRandomNumber(1, totalCase)
+
+  await queryCovidAPI(city).then((res) => {
+    // undefined checker
+    if (res == undefined || res.length != 3) {
+      return [totalCase, newCase, confirmCase];
+    }
+    // assign when has the data
+    if (res[0] > 0) {
+      totalCase = res[0];
+    }
+    if (res[1] > 0) {
+      newCase = res[1];
+    }
+    if (res[2] > 0) {
+      confirmCase = res[2];
+    }
+  })
+  return [totalCase, newCase, confirmCase];
+}
+
 function getRandomNumber(start, end) {
-  return Math.floor(Math.random() * end-start) + start
+  return Math.floor(Math.random() * end - start) + start;
 }
 
 function getSentimentResponse(sentiment) {
