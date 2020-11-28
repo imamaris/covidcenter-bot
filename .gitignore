@@ -1,2 +1,5 @@
 node_modules
 .DS_Store
+
+docusaurus/website/build/docs
+docusaurus/website/build/docs-gh-pages

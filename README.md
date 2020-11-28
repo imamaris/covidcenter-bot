@@ -3,6 +3,8 @@
   <img src="./examples/test_messenger_covid.gif" width="40%">
 </p>
 
+If you want to see docusaurus version, you could visit https://covidcenter.github.io/docs/
+
 In this tutorial, we will be creating an API-based bot that give information covid to your account. The app will be able to process the user's text and respond to the user data about covid that they want. The key things we will explore is how to:
 
 *   [Design the user interaction and Architecture](#design-the-user-interaction)
