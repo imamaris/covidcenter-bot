@@ -508,15 +508,22 @@ function getCovidResponse(entities) {
   console.log(entities["covid:covid"]);
   var city = ''
   var isCovid = false
+
+  // null checker
+  if (entities['wit$location:location'] == null || entities['covid:covid'] == null) {
+    return DEFAULT_RESPONSE;
+  }
+
   // iterate to find covid entities and location entities.
-  entities['covid:covid'].forEach(function(c) {
-    if (c.value == 'location') {
-      city = c.body
-    }
+  entities['wit$location:location'].forEach(function (c) {
+    city = c.body
+  })
+  entities['covid:covid'].forEach(function (c) {
     if (c.value == "covid") {
       isCovid = true
     }
   })
+
 
   if (isCovid && city != '') {
     // covid response when covid and city is available.
