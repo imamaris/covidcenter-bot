@@ -25,6 +25,9 @@ const siteConfig = {
   tagline: 'A website Documentation',
   url: 'http://covidcenter.github.io', // Your website URL
   baseUrl: '/docs/', // Base URL for your project */
+  docsUrl: '',
+  twitterUsername: "sukangwurr",
+  repoUrl: "https://github.com/imamaris/covidcenter-bot",
   // For github.io type URLs, you would set the url and baseUrl like:
   //   url: 'https://facebook.github.io',
   //   baseUrl: '/test-site/',
@@ -38,7 +41,7 @@ const siteConfig = {
 
   // For no header links in the top nav bar -> headerLinks: [],
   headerLinks: [
-    { doc: 'doc1', label: 'Docs' },
+    { doc: 'covidcenter-bot-tutorial', label: 'Docs' },
     //{doc: 'doc4', label: 'API'},
     { page: 'help', label: 'Help' },
     //{blog: true, label: 'Blog'},
