@@ -391,7 +391,7 @@ Next, we create training intents, entities and utterances which the user will li
 To find out whether our training has been successful, you can try to re-enter words related to the training we are doing, namely Covid and Jakarta and make sure the confidence reaches above 90% to test the validity of our intentions.
 
 <p align="center">
-<img src="./examples/test_validitas_new.PNG">
+<img src="./examples/test_validitas_new.png">
 </p>
 
 ```
