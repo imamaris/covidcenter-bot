@@ -3,16 +3,17 @@
   <img src="./examples/test_messenger_header.gif" width="40%">
 </p>
 
-If you want to see docusaurus version, you could visit https://covidcenter.github.io/docs/
 
-In this tutorial, we will be creating an API-based bot that give information covid to your account. The app will be able to process the user's text and respond to the user data about covid that they want. The key things we will explore is how to:
+In this tutorial, we will be creating an API-based bot that give covid information to users. The app will be able to process the user's text and respond location-based covid information to the users. We will explore how to:
 
-*   [Design the user interaction and Architecture](#design-the-user-interaction)
-*   [Understand Terms in Wit.AI](#understand-terms-in-Wit.AI)
-*   [Create and Training your Wit app to do natural language processing (NLP)](#create-and-training-your-wit-app-to-do-natural-language-processing-(NLP))
-*   [Integrate Wit with your Messenger Bot](#integrate-wit-with-your-messenger-bot)
-*   [Train Covid Intent with Wit API](#train-covid_intent-with-wit-api)
-*   [Enhance bot parser for covid intent](#enhance-bot-parser-for-covid-intent)
+*   [Design the User Interaction and Architecture](#design-the-user-interaction)
+*   [Learn Terms in Wit.AI](#learn-terms-in-Wit.AI)
+*   [Create and Train Wit.AI Application to do Natural Language Processing (NLP)](#create-and-train-wit.ai-application-to-do-natural-language-processing-(NLP))
+*   [Integrate Wit.AI with your Messenger Bot](#integrate-wit.ai-with-your-messenger-bot)
+*   [Train Covid Intent with Wit.AI API](#train-covid_intent-with-wit-api)
+*   [Enhance bot parser for Covid Intent](#enhance-bot-parser-for-covid-intent)
+
+If you want to see docusarus version, you could visit https://covidcenter.github.io/docs/
 
 ## Prerequisites
 
@@ -57,7 +58,7 @@ Wit: "Great, if you feel good !! keep physical distancing yaaa :D"
 
 There are many other scenarios to consider as well, but for the tutorial let's just focus on these.
 
-## Understand Terms in Wit.AI
+## Learn Terms in Wit.AI
 
 Before we train our Wit app, we should learn about intents, entities, traits, and utterances.
 If you already learn those terms, you can go to [Next section](#training-your-wit-app-to-do-natural-language-processing-nlp)
@@ -109,7 +110,7 @@ This term will be used to train data, for example:
 
 Now that we are understand, let’s train our Wit app to process the user’s response to the app.
 
-## Create and Training your Wit app to do natural language processing (NLP)
+## Create and Train Wit.AI Application to do Natural Language Processing (NLP)
 
 Wit AI has **two method for training the NLP**.
 The first is inserting utterances with **web interface**.
@@ -257,7 +258,7 @@ Run the file with:
 
 ![test results](./examples/test.png)
 
-## Integrate Wit with your Messenger Bot
+## Integrate Wit.AI with your Messenger Bot
 
 When you download the Tutorial from the [init data branch](https://github.com/imamaris/covidcenter-bot/tree/init-data), the app will be capable of doing text and answer with sentiment intent. In this part, we will add how retrieve covid 
 
