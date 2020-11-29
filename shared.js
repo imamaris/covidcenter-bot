@@ -6,7 +6,7 @@ const fetch = require('node-fetch');
 
 const NEW_ACCESS_TOKEN = '' // TODO: fill this in
 const FIREBASE_CONFIG = {}; // TODO: fill this in
-const APP_ID = ''; // TODO: fill this in
+const APP_ID = '995445434256954'; // TODO: fill this in
 
 // ------------------------------------------------------------
 // Wit API Calls
