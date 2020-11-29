@@ -142,8 +142,8 @@ function getSentimentResponse(sentiment) {
   }
 
   console.log(sentiment[0].value);
-  if (sentiment[0].value === 'positif') {
-    return 'Great, if you feel good !! keep physical distancing yaaa :D '
+  if (sentiment[0].value === 'positive') {
+    return 'Great !! keep physical distancing and wear a mask !! :D '
   }
 
   return 'Yes, i know its a bit sad :( I know its hard, but keep physical distancing <3 '
