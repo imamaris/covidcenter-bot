@@ -75,13 +75,13 @@ async function getMessageFromNlp(nlp) {
 }
 
 async function getCovidResponse(entities) {
-  console.log(entities);
+  console.log(entities["covid:covid"]);
   var city = ''
   var isCovid = false
-  entities['wit$location:location'].forEach(function (c) {
-    city = c.body
-  })
-  entities['covid:covid'].forEach(function (c) {
+  entities['covid:covid'].forEach(function(c) {
+    if (c.value == 'location') {
+      city = c.body
+    }
     if (c.value == "covid") {
       isCovid = true
     }
@@ -142,11 +142,11 @@ function getSentimentResponse(sentiment) {
   }
 
   console.log(sentiment[0].value);
-  if (sentiment[0].value === 'positive') {
-    return 'Great !! keep physical distancing and wear a mask !! :D '
+  if (sentiment[0].value === 'positif') {
+    return 'Great, if you feel good !! keep physical distancing yaaa :D '
   }
 
-  return 'Yes, i know its a bit sad :( I know its hard, but keep physical distancing <3 '
+  return 'Ganbatte :( I know its hard, but keep physical distancing, for the good with my dear <3 '
 }
 
 // Adds support for GET requests to our webhook
