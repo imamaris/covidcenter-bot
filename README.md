@@ -11,6 +11,8 @@ In this tutorial, we will be creating an API-based bot that give information cov
 *   [Understand Terms in Wit.AI](#understand-terms-in-Wit.AI)
 *   [Create and Training your Wit app to do natural language processing (NLP)](#create-and-training-your-wit-app-to-do-natural-language-processing-(NLP))
 *   [Integrate Wit with your Messenger Bot](#integrate-wit-with-your-messenger-bot)
+*   [Train Covid Intent with Wit API](#train-covid_intent-with-wit-api)
+*   [Enhance bot parser for covid intent](#enhance-bot-parser-for-covid-intent)
 
 ## Prerequisites
 
@@ -369,7 +371,7 @@ Now, after you set your webhook and NLP, you could try your chatbot.
 
 <img src="./examples/chat_test.png" width="30%"><img src="./examples/negative_new.png" width="30%"><img src="./examples/neutral_positive.png" width="30%">
 
-### Train covid_intent the Wit API
+### Train covid_intent with Wit API
 
 We are going to create intents to define what the user's utterances for our wit.AI application will understand. On the dashboard click on intents, click **+Intents** to add a new intents.
 
@@ -464,7 +466,7 @@ we have **text, value, start, and end** that we can check again from our covid_i
 
 - **end** is the ending index highlighted entity within the text. We can see on last column.
 
-### Add bot parser for NLP API
+### Enhance bot parser for Covid Intent
 
 The first thing that you have to do is listing your bot behaviours and responses that come from entities that you have.
 
