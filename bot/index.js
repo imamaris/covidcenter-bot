@@ -78,12 +78,6 @@ async function getCovidResponse(entities) {
   console.log(entities);
   var city = ''
   var isCovid = false
-
-  // null checker
-  if (entities['wit$location:location'] == null || entities['covid:covid'] == null) {
-    return DEFAULT_RESPONSE;
-  }
-
   entities['wit$location:location'].forEach(function (c) {
     city = c.body
   })
