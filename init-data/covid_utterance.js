@@ -3,7 +3,7 @@ const fetch = require('node-fetch');
 const { validateUtterances } = require('../shared')
 
 const DOUBLETAB = '   ';
-const fileName = 'init-data/covid_intent.tsv'
+const fileName = 'init-data/datasets/covid_intent.tsv'
 const intentName = 'covid_intents'
 const entityName = 'covid:covid'
 const data = fs

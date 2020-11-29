@@ -1,6 +1,6 @@
 ## Overview
 <p align="center">
-  <img src="./assets/test_messenger_covid.gif" width="40%">
+  <img src="./assets/test_messenger_header.gif" width="40%">
 </p>
 
 If you want to see docusaurus version, you could visit https://covidcenter.github.io/docs/
@@ -367,7 +367,7 @@ To try the Built-in NLP Page Inbox feature with your Messenger experience, do th
 
 Now, after you set your webhook and NLP, you could try your chatbot.
 
-<img src="./assets/neutral_positive.png" width="30%"><img src="./assets/negative.png" width="30%"><img src="./assets/p_negative.png" width="30%">
+<img src="./assets/chat_test.png" width="30%"><img src="./assets/negative_new.png" width="30%"><img src="./assets/neutral_positive.png" width="30%">
 
 ### Train covid_intent the Wit API
 
@@ -562,7 +562,7 @@ Enjoy, and hack your bot !!! 🤖 📱
 🏆🏆🏆
 
 <p align="center">
-<img src="./assets/test_messenger_covid.gif" width="40%">
+<img src="./assets/test_messenger_footer.gif" width="40%">
 </p>
 
 ### (Additional) Integrate with covid API
