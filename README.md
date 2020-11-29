@@ -391,7 +391,7 @@ Next, we create training intents, entities and utterances which the user will li
 To find out whether our training has been successful, you can try to re-enter words related to the training we are doing, namely Covid and Jakarta and make sure the confidence reaches above 90% to test the validity of our intentions.
 
 <p align="center">
-<img src="./examples/test_validitas_new.PNG">
+<img src="./examples/test_validitas_new.png">
 </p>
 
 ```
@@ -508,15 +508,21 @@ function getCovidResponse(entities) {
   console.log(entities["covid:covid"]);
   var city = ''
   var isCovid = false
+  // null checker
+  if (entities['wit$location:location'] == null || entities['covid:covid'] == null) {
+    return DEFAULT_RESPONSE;
+  }
+
   // iterate to find covid entities and location entities.
-  entities['covid:covid'].forEach(function(c) {
-    if (c.value == 'location') {
-      city = c.body
-    }
+  entities['wit$location:location'].forEach(function (c) {
+    city = c.body
+  })
+  entities['covid:covid'].forEach(function (c) {
     if (c.value == "covid") {
       isCovid = true
     }
   })
+
 
   if (isCovid && city != '') {
     // covid response when covid and city is available.
