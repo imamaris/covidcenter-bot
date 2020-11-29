@@ -55,15 +55,15 @@ app.post('/webhook', (req, res) => {
 
 function getSentimentResponse(sentiment) {
   if (sentiment === undefined ) {
-    return 'Ada yang Coce bisa bantu ?'
+    return 'Is there anything cocid can help?'
   }
 
   console.log(sentiment[0].value);
-  if (sentiment[0].value === 'positif') {
-    return 'Mantap, kalau kamu merasa baik !! tetap social distancing yaaa :D '
+  if (sentiment[0].value === 'positive') {
+    return 'Great !! keep physical distancing and wear a mask !! :D '
   }
 
-  return 'Semangat :( Aku tahu ini berat, tapi tetap social distancing yaa, demi kebaikan bersama sayangku <3 '
+  return 'Yes, i know its a bit sad :( I know its hard, but keep physical distancing <3 '
 }
 
 // Adds support for GET requests to our webhook
