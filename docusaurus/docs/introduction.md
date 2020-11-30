@@ -10,12 +10,12 @@ title: Introduction
 
 In this tutorial, we will be creating an API-based bot that give information covid to your account. The app will be able to process the user's text and respond to the user data about covid that they want. The key things we will explore is how to:
 
-*   [Design the User Interaction and Architecture](/design-user-interaction)
-*   [Learn Terms in Wit.AI](/learn-terms-in-witai)
-*   [Create and Train wit.AI Application to do Natural Language Processing (NLP)](/create-and-train-witai-application)
-*   [Integrate Wit.AI with your Messenger Bot](/integrate-witai-with-your-messenger-bot)
-*   [Train Covid Intent with Wit.AI API](/train-covid_intent-with-witai-api)
-*   [Enhance bot parser for Covid Intent](/enhance-bot-parser-for-covid-intent)
+*   [Design the User Interaction and Architecture](/docs/design-user-interaction)
+*   [Learn Terms in Wit.AI](/docs/learn-terms-in-witai)
+*   [Create and Train wit.AI Application to do Natural Language Processing (NLP)](/docs/create-and-train-witai-application)
+*   [Integrate Wit.AI with your Messenger Bot](/docs/integrate-witai-with-your-messenger-bot)
+*   [Train Covid Intent with Wit.AI API](/docs/train-covid_intent-with-witai-api)
+*   [Enhance bot parser for Covid Intent](/docs/enhance-bot-parser-for-covid-intent)
 
 ## Prerequisites
 

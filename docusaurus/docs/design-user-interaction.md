@@ -1,6 +1,6 @@
 ---
-id: design-user-transaction
-title: Design User Transaction
+id: design-user-interaction
+title: Design User Interaction
 ---
 
 ## Design the User Interaction

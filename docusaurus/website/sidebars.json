@@ -6,7 +6,7 @@
     "Part Contents": [
       "introduction",
       "design-user-interaction",
-      "learn-terms-in-wit-ai",
+      "learn-terms-in-witai",
       "create-and-train-witai-application",
       "integrate-witai-with-your-messenger-bot",
       "train-covid_intent-with-witai-api",
