@@ -5,16 +5,16 @@ title: Create and Train wit.AI Application to do Natural Language Processing (NL
 
 ## Create and Train Wit.AI Application to do Natural Language Processing (NLP)
 
-Wit AI has **two method for training the NLP**.
+Wit AI has **two methods for training the NLP**.
 The first is inserting utterances with **web interface**.
 The second one is inserting utterances with **API**.
 
-We would like to introduce to you all for two methods. But, because data is supossed to be large,
+We would like to introduce to you all for two methods. But, because data is supposed to be large,
 we emphasize the API method more than Web Interface method in this tutorial.
 
 ### Wit AI Web Interface
 
-We are going to create intents to define what the user's utterance for our wit.AI application will understand. On the dashboard click on intents, click **+Intents** to add a new intents.
+We are going to create intents to define what the user's utterance for our wit.AI application will understand. On the dashboard click on intents, click **+Intents** to add a new intent.
 
 <p align="center">
 <img src="./assets/create_intent_sentiment.gif">
@@ -82,7 +82,7 @@ const APP_ID = ''; // TODO: fill this in
 
 The script is reading data from tsv and hit [Utterances API](https://wit.ai/docs/http/20200513/#post__utterances_link).
 In this script, we use doubletab to enable data with tab and `node fetch` to hit api.
-We could change utterances constractor and the map for another needs if we want to train another data.
+We could change utterances constructor and the map for other needs if we want to train another data.
 
 ```js
 // read data with `\n` splitting

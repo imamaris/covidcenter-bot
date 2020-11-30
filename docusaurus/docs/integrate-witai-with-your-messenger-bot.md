@@ -5,7 +5,7 @@ title: Integrate Wit.AI with your Messenger Bot
 
 ## Integrate Wit.AI with your Messenger Bot
 
-When you download the Tutorial from the [init data branch](https://github.com/imamaris/covidcenter-bot/tree/init-data), the app will be capable of doing text and answer with sentiment intent. In this part, we will add how retrieve covid 
+When you download the Tutorial from the [init data branch](https://github.com/imamaris/covidcenter-bot/tree/init-data), the app will be capable of doing text and answer with sentiment intent. In this part, we will add how to retrieve covid 
 
 Before you begin, you will need to create a few things. Please ensure you have all of the following:
 - Facebook Page: A Facebook Page will be used as the identity of your Messenger experience. When people chat with your app, they will see the Page name and the Page profile picture. To create a new Page, visit https://www.facebook.com/pages/create
@@ -95,7 +95,7 @@ Configure the webhook for your app
 1. In the 'Webhooks' section of the Messenger settings console, click the 'Setup Webhooks' button.
 2. In the 'Callback URL' field, enter the ngrok URL for your webhook. (example: https://3c37b05d146e.ngrok.io)
 3. In the 'Verify Token' field, enter the verify token for your webhook. See [Step 4 of Webhook Setup](https://developers.facebook.com/docs/messenger-platform/getting-started/webhook-setup/) for further reference.
-4. Click 'Verify and Save' to confirm you callback URL.
+4. Click 'Verify and Save' to confirm your callback URL.
 
 
 The Built-in NLP integration with the Page inbox lets you create a Wit.ai app automatically and bootstrap it with past conversations from your Page directly from the Facebook app console settings. These samples that are compiled into your Wit.ai app are based on real conversations your Page has had with your users.

@@ -4,7 +4,7 @@
 </p>
 
 
-In this tutorial, we will be creating an API-based bot that give covid information to users. The app will be able to process the user's text and respond location-based covid information to the users. We will explore how to:
+In this tutorial, we will be creating an API-based bot that gives covid information to users. The app will be able to process the user's text and respond location-based covid information to the users. We will explore how to:
 
 *   [Design the User Interaction and Architecture](#design-the-user-interaction)
 *   [Learn Terms in Wit.AI](#learn-terms-in-Wit.AI)
@@ -23,7 +23,7 @@ If you want to see docusarus version, you could visit https://covidcenter.github
 *   Create Facebook App | [Tutorial](https://developers.facebook.com/docs/apps/)
 *   Download & Install Ngrok [Link](https://ngrok.com/download)
 
-Ngrok is reverse proxy, it allow you deploy at local with random link.
+Ngrok is reverse proxy, it allows you to deploy at local with random link.
 
 ## Design the User Interaction
 
@@ -70,28 +70,28 @@ We want to understand what our end-user wants to perform. For example:
 - Book a restaurant
 - Open the garage door
 
-The problem is that there a millions of different ways to express a given intent. For instance, all the following expressions should be mapped to the same intent:
+There are a millions of different ways to express a given intent. For instance, all the following expressions should be mapped to the same intent:
 
 "What is the weather in Paris?"
-"Give me tomorrow weather in Paris."
+"Give me tomorrow's weather in Paris."
 "Is it sunny or rainy in Paris now?"
 
 **Those expressions are** asking about the **weather intent**. How about entities ? 
-**Entities is object that referred in the intent of sentence**.
+**Entities are object that referred in the intent of sentence**.
 
 "What is the weather in **Paris** ?"
-Paris is **city** where we ask about the weather for.
+Paris is a **city** where we ask about the weather.
 
 "Give me **tomorrow** weather in **Paris**."
 Tomorrow is **time** when we ask about the weather for.
 
 "Is it **sunny** or **rainy** in **Paris** **now**?"
-And **sunny** and **rainy** are options what we ask about he weather.
+And **sunny** and **rainy** are options what we ask about the weather.
 
 **The entities make machine understand what object that related with the intent**.
 example: "Give me **tomorrow** weather in **Paris**."
 
-Intent: Ask about the weather , Entities: City: Paris Time: Tomorrow
+Intent: Ask about the weather , Entities: { City: Paris Time: Tomorrow }
 Machine could query to the database in table weather(intent) with paris city and tomorrow queries (entities)
 
 So what is trait ?
@@ -103,25 +103,25 @@ We could give an example of this like sentiment on reaction_intent.
 "I can't believe this. I'm crying" (negative)
 "Superb" (positive)
 
-**Utterances is sample data which define a sentence to be categorized to an intent and have entities and traits**.
+**Utterances are sample data which define a sentence to be categorized to an intent and have entities and traits**.
 This term will be used to train data, for example: 
 
 ![pic utterance](./examples/utterance_new.png)
 
-Now that we are understand, let’s train our Wit app to process the user’s response to the app.
+Now that we understand, let’s train our Wit app to process the user’s response to the app.
 
 ## Create and Train Wit.AI Application to do Natural Language Processing (NLP)
 
-Wit AI has **two method for training the NLP**.
+Wit AI has **two methods for training the NLP**.
 The first is inserting utterances with **web interface**.
 The second one is inserting utterances with **API**.
 
-We would like to introduce to you all for two methods. But, because data is supossed to be large,
+We would like to introduce to you all for two methods. But, because data is supposed to be large,
 we emphasize the API method more than Web Interface method in this tutorial.
 
 ### Wit AI Web Interface
 
-We are going to create intents to define what the user's utterance for our wit.AI application will understand. On the dashboard click on intents, click **+Intents** to add a new intents.
+We are going to create intents to define what the user's utterance for our wit.AI application will understand. On the dashboard click on intents, click **+Intents** to add a new intent.
 
 <p align="center">
 <img src="./examples/create_intent_sentiment.gif">
@@ -189,7 +189,7 @@ const APP_ID = ''; // TODO: fill this in
 
 The script is reading data from tsv and hit [Utterances API](https://wit.ai/docs/http/20200513/#post__utterances_link).
 In this script, we use doubletab to enable data with tab and `node fetch` to hit api.
-We could change utterances constractor and the map for another needs if we want to train another data.
+We could change utterances constructor and the map for other needs if we want to train another data.
 
 ```js
 // read data with `\n` splitting
@@ -260,7 +260,7 @@ Run the file with:
 
 ## Integrate Wit.AI with your Messenger Bot
 
-When you download the Tutorial from the [init data branch](https://github.com/imamaris/covidcenter-bot/tree/init-data), the app will be capable of doing text and answer with sentiment intent. In this part, we will add how retrieve covid 
+When you download the Tutorial from the [init data branch](https://github.com/imamaris/covidcenter-bot/tree/init-data), the app will be capable of doing text and answer with sentiment intent. In this part, we will add how to retrieve covid 
 
 Before you begin, you will need to create a few things. Please ensure you have all of the following:
 - Facebook Page: A Facebook Page will be used as the identity of your Messenger experience. When people chat with your app, they will see the Page name and the Page profile picture. To create a new Page, visit https://www.facebook.com/pages/create
@@ -350,7 +350,7 @@ Configure the webhook for your app
 1. In the 'Webhooks' section of the Messenger settings console, click the 'Setup Webhooks' button.
 2. In the 'Callback URL' field, enter the ngrok URL for your webhook. (example: https://3c37b05d146e.ngrok.io)
 3. In the 'Verify Token' field, enter the verify token for your webhook. See [Step 4 of Webhook Setup](https://developers.facebook.com/docs/messenger-platform/getting-started/webhook-setup/) for further reference.
-4. Click 'Verify and Save' to confirm you callback URL.
+4. Click 'Verify and Save' to confirm your callback URL.
 
 
 The Built-in NLP integration with the Page inbox lets you create a Wit.ai app automatically and bootstrap it with past conversations from your Page directly from the Facebook app console settings. These samples that are compiled into your Wit.ai app are based on real conversations your Page has had with your users.
@@ -380,18 +380,18 @@ We are going to create intents to define what the user's utterances for our wit.
 <img src="./examples/create_intent.gif">
 </p>
 
-Next, we create training intents, entities and utterances which the user will likely do on the understanding menu. Add a utterance:
+Next, we create training intents, entities and utterances which the user will likely do on the understanding menu. Add an utterance:
 
 1. Make sure you are in **Train Your App** page by click **Understanding** on top right menu.
-2. enter `jumlah covid di jakarta` into **Utterance** text box.
-3. Label it your entitites into utterence by highlight `covid` and enter `covid_intents`, klik **Create Intents** as a entitites dan highlight again `jakarta` and choice `wit/location`.
-4.  Submit your first utterance by click **Train and Validate**. Training will be start a few seconds  - you can check the status training on top right corner.
+2. Input `jumlah covid di jakarta` to **Utterance** text box.
+3. Label it your entitites into utterance by highlight `covid` and enter `covid_intents`, click **Create Intents** as a entitites, highlight `jakarta`, and choose `wit/location`.
+4.  Submit your first utterance by clicking **Train and Validate**. Training will be start a few seconds  - you can check the status training on top right corner.
 
 <p align="center">
 <img src="./examples/training_new.gif">
 </p>
 
-To find out whether our training has been successful, you can try to re-enter words related to the training we are doing, namely Covid and Jakarta and make sure the confidence reaches above 90% to test the validity of our intentions.
+To find out whether our training has been successful, you can try to re-enter related words to the training that we are doing, namely Covid and Jakarta and make sure the confidence reaches above 90% to test the validity of our intentions.
 
 <p align="center">
 <img src="./examples/test_validitas_new.png">
@@ -578,7 +578,7 @@ We would like you to integrate the bot to Covid API. In this tutorial, we use [m
 
 ## Review and continue improving your Wit app
 
-As you are testing the app, you might notice that certain utterances are not resolving to the proper intents. To address this, go to [Wit.ai](https://wit.ai/) and on the **Understanding** page you should see utterances that have been sent to the API endpoint. You can review each utterance by expanding one and making sure that the entity is properly identified and resolving to the correct intent. If there are utterances not relevant to your use case (invalid utterances), you can mark them as **Out of Scope**.
+As you are testing the app, you might notice that certain utterances are not resolving to the proper intents. To address these, go to [Wit.ai](https://wit.ai/) and on the **Understanding** page you should see utterances that have been sent to the API endpoint. You can review each utterance by expanding one and making sure that the entity is properly identified and resolving to the correct intent. If there are utterances not relevant to your use case (invalid utterances), you can mark them as **Out of Scope**.
 
 ## Next Steps
 

@@ -11,18 +11,18 @@ We are going to create intents to define what the user's utterances for our wit.
 <img src="./assets/create_intent.gif">
 </p>
 
-Next, we create training intents, entities and utterances which the user will likely do on the understanding menu. Add a utterance:
+Next, we create training intents, entities and utterances which the user will likely do on the understanding menu. Add an utterance:
 
 1. Make sure you are in **Train Your App** page by click **Understanding** on top right menu.
-2. enter `jumlah covid di jakarta` into **Utterance** text box.
-3. Label it your entitites into utterence by highlight `covid` and enter `covid_intents`, klik **Create Intents** as a entitites dan highlight again `jakarta` and choice `wit/location`.
-4.  Submit your first utterance by click **Train and Validate**. Training will be start a few seconds  - you can check the status training on top right corner.
+2. Input `jumlah covid di jakarta` to **Utterance** text box.
+3. Label it your entitites into utterance by highlight `covid` and enter `covid_intents`, click **Create Intents** as a entitites, highlight `jakarta`, and choose `wit/location`.
+4.  Submit your first utterance by clicking **Train and Validate**. Training will be start a few seconds  - you can check the status training on top right corner.
 
 <p align="center">
 <img src="./assets/training_new.gif">
 </p>
 
-To find out whether our training has been successful, you can try to re-enter words related to the training we are doing, namely Covid and Jakarta and make sure the confidence reaches above 90% to test the validity of our intentions.
+To find out whether our training has been successful, you can try to re-enter related words to the training that we are doing, namely Covid and Jakarta and make sure the confidence reaches above 90% to test the validity of our intentions.
 
 <p align="center">
 <img src="./assets/test_validitas_new.png">

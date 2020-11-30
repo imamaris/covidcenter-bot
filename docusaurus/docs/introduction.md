@@ -8,7 +8,7 @@ title: Introduction
   <img src="./assets/test_messenger_header.gif" width="40%">
 </p>
 
-In this tutorial, we will be creating an API-based bot that give information covid to your account. The app will be able to process the user's text and respond to the user data about covid that they want. The key things we will explore is how to:
+In this tutorial, we will be creating an API-based bot that gives covid information to users. The app will be able to process the user's text and respond location-based covid information to the users. We will explore how to:
 
 *   [Design the User Interaction and Architecture](/docs/design-user-interaction)
 *   [Learn Terms in Wit.AI](/docs/learn-terms-in-witai)
@@ -25,7 +25,7 @@ In this tutorial, we will be creating an API-based bot that give information cov
 *   Create Facebook App | [Tutorial](https://developers.facebook.com/docs/apps/)
 *   Download & Install Ngrok [Link](https://ngrok.com/download)
 
-Ngrok is reverse proxy, it allow you deploy at local with random link.
+Ngrok is reverse proxy, it allows you to deploy at local with random link.
 
 ## Related Content
 
