@@ -1,8 +1,17 @@
 {
   "docs": {
-    "Covid Bot Tutorial": ["covidcenter-bot-tutorial"]
-  },
-  "docs-other": {
-    "First Category": ["doc4", "doc5"]
+    "Single Page": [
+      "covidcenter-bot-tutorial"
+    ],
+    "Part Contents": [
+      "introduction",
+      "design-user-interaction",
+      "learn-terms-in-wit-ai",
+      "create-and-train-witai-application",
+      "integrate-witai-with-your-messenger-bot",
+      "train-covid_intent-with-witai-api",
+      "enhance-bot-parser-for-covid-intent",
+      "improvement"
+    ]
   }
 }

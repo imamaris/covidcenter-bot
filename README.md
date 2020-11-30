@@ -372,7 +372,7 @@ Now, after you set your webhook and NLP, you could try your chatbot.
 
 <img src="./examples/chat_test.png" width="30%"><img src="./examples/negative_new.png" width="30%"><img src="./examples/neutral_positive.png" width="30%">
 
-### Train covid_intent with Wit API
+## Train covid_intent with Wit API
 
 We are going to create intents to define what the user's utterances for our wit.AI application will understand. On the dashboard click on intents, click **+Intents** to add a new intents.
 
@@ -467,7 +467,7 @@ we have **text, value, start, and end** that we can check again from our covid_i
 
 - **end** is the ending index highlighted entity within the text. We can see on last column.
 
-### Enhance bot parser for Covid Intent
+## Enhance bot parser for Covid Intent
 
 The first thing that you have to do is listing your bot behaviours and responses that come from entities that you have.
 
@@ -567,7 +567,7 @@ Enjoy, and hack your bot !!! 🤖 📱
 <img src="./examples/test_messenger_footer.gif" width="40%">
 </p>
 
-### (Additional) Integrate with covid API
+## (Additional) Integrate with covid API
 
 We would like you to integrate the bot to Covid API. In this tutorial, we use [mathdroid covid API](https://github.com/mathdroid/indonesia-covid-19-api). The steps are :
 1. Read how you will use the [API](https://github.com/mathdroid/indonesia-covid-19-api). In this case, you should hit [provinsi API](https://github.com/imamaris/covidcenter-bot/pull/20/files#diff-54ae40e35c503792f71f237cb5dec82d1240eba383b1d80e454482c1563f605dR54)
@@ -599,7 +599,7 @@ We look forward to what you will develop! To stay connected, join the [Wit Hacke
 * [Wit Blog](https://wit.ai/blog)
 
 ## Contributing
-Just make issue and PR if you want to contribute. we will review your PR.
+Please make an issue/PR in this repo if you want to contribute. we will review it.
 
 ## License
 Wit.ai Covid Center Bot is licensed, as found in the [LICENSE](LICENSE) file.
